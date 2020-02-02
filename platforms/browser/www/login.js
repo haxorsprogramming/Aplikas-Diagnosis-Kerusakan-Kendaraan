@@ -18,15 +18,21 @@ $(document).ready(function(){
         let username = $('#txtUsername').val();
         let password = $('#txtPassword').val();
         let dataSend = {'username':username, 'password':password}
-        $('#capNotifLogin').html("Login ke sistem ...");
-        $.post('http://api.haxors.or.id/riyan/login_cek.php',dataSend,function(data){
-            let obj = JSON.parse(data);
-            if(obj.status === 'sukses'){                
-                aksi_sukses();
-            }else{
-                aksi_gagal();
-            }
-        });
+
+        if(username === '' && password === ''){
+            window.alert("Isi username & password please ..");
+        }else{
+            $('#capNotifLogin').html("Login ke sistem ...");
+            $('#btnMasuk').hide();
+            $.post('http://api.haxors.or.id/riyan/login_cek.php',dataSend,function(data){
+                let obj = JSON.parse(data);
+                if(obj.status === 'sukses'){                
+                    aksi_sukses();
+                }else{
+                    aksi_gagal();
+                }
+            });
+        }       
     });
 
     function aksi_gagal(){
@@ -41,6 +47,7 @@ $(document).ready(function(){
                 $('#txtUsername').val("");
                 $('#txtPassword').val("");
                 $('#txtUsername').focus();
+                $('#btnMasuk').show();
             } 
           });
     }
