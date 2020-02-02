@@ -29,12 +29,9 @@
          <form class="form-inline mr-auto">
            <ul class="navbar-nav mr-3">
              <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
-             <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+            
            </ul>
-           <div class="search-element">
-
-
-           </div>
+          
          </form>
          <ul class="navbar-nav navbar-right">
 
@@ -43,7 +40,7 @@
              <div class="d-sm-none d-lg-inline-block">Hi, </div></a>
              <div class="dropdown-menu dropdown-menu-right">
 
-               <a href="logOut.php" class="dropdown-item has-icon text-danger">
+               <a href="#!" id='btnLogOutTop' class="dropdown-item has-icon text-danger">
                  <i class="fas fa-sign-out-alt"></i> Logout
                </a>
              </div>
@@ -61,12 +58,12 @@
             <ul class="sidebar-menu">
           
                 <li class="menu-header">Menu</li>
-                <li><a class="nav-link btnDashboard" href="#!"><i class="fas fa-newspaper"></i> <span>Dashboard</span></a></li>
-              <li><a class="nav-link btnBahanBaku" href="#!"><i class="fas fa-newspaper"></i> <span>Uji Diagnosis</span></a></li>
-               <li><a class="nav-link btnDataProduksi" href="#!"><i class="fas fa-newspaper"></i> <span>Data Gejala</span></a></li>
-                <li><a class="nav-link btnPerhitungan" href="#!"><i class="fas fa-newspaper"></i> <span>Data Kerusakan &amp; Solusi</span></a></li>
+              <li><a class="nav-link btnDashboard" href="#!"><i class="fas fa-newspaper"></i> <span>Dashboard</span></a></li>
+               <li><a class="nav-link btnUjiDiagnosis" href="#!"><i class="fas fa-newspaper"></i> <span>Uji Diagnosis</span></a></li>
+               <li><a class="nav-link btnDataGejala" href="#!"><i class="fas fa-newspaper"></i> <span>Data Gejala</span></a></li>
+               <li><a class="nav-link btnDataKerusakan" href="#!"><i class="fas fa-newspaper"></i> <span>Data Kerusakan &amp; Solusi</span></a></li>
                <li><a class="nav-link btnSettingUser" href="#!"><i class="fas fa-newspaper"></i> <span>Setting User</span></a></li>
-                <li><a class="nav-link" href="logOut.php"><i class="fas fa-sign-out-alt"></i> <span>LogOut</span></a></li>
+              <li><a class="nav-link" id='btnLogOut' href="#!"><i class="fas fa-sign-out-alt"></i> <span>LogOut</span></a></li>
           </aside>
        </div>
 
