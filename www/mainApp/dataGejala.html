@@ -2,7 +2,7 @@
 
     <div class='row'>
         <div style='margin-bottom: 15px;'>
-            <a href='#!' class="btn btn-warning">Tambah Gejala</a>
+            <a href='#!' class="btn btn-warning" id="btnTambahGejala">Tambah Gejala</a>
         </div>
         <table class="table" id='myTable'>
             <thead>
@@ -24,7 +24,7 @@ $(document).ready(function(){
             "lengthChange": false,
             "searching": false
         });
-        
+
     $.post('http://api.haxors.or.id/riyan/get_data_gejala.php',function(data){
         let obj = JSON.parse(data);
         obj.forEach(renderTabel);
@@ -41,11 +41,13 @@ $(document).ready(function(){
         cell1.innerHTML = obj[index].kd_gejala;
         cell2.innerHTML = obj[index].gejala_kerusakan; 
         cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary'>Detail</a>";
-        }
-      
+        }      
     });
 
-   
+   $('#btnTambahGejala').click(function(){
+    $('#divUtama').html("Memuat ... ");
+    $('#divUtama').load('formTambahGejala.html');
+   });
 
 });
 </script>
