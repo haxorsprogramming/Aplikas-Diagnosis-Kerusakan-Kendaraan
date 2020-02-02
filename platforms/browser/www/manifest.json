@@ -1,10 +1,10 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "HelloCordova",
-  "short_name": "HelloCordova",
+  "name": "Aplikasi Diagnosis Kerusakan Kendaraan",
+  "short_name": "Aplikasi Diagnosis Kerusakan Kendaraan",
   "version": "io.cordova.hellocordova",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "description": "Aplikasi untuk mendeteksi kerusakan kendaraaan",
   "author": "Apache Cordova Team",
   "icons": [],
   "start_url": "index.html"
