@@ -40,7 +40,7 @@ $(document).ready(function(){
         // Add some text to the new cells:
         cell1.innerHTML = obj[index].kd_gejala;
         cell2.innerHTML = obj[index].gejala_kerusakan; 
-        cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary'>Detail</a>";
+        cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary' id='"+obj[index].kd_gejala+"'>Detail</a>";
         }      
     });
 
