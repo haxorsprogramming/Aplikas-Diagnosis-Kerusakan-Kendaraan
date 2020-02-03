@@ -16,6 +16,7 @@ $(document).ready(function(){
 
     $('.btnDataGejala').click(function(){
         togelSidebar();
+        $('#capUtama').html("Data Gejala")
         $('#divUtama').html("Memuat ... ");
         $('#divUtama').load('dataGejala.html');
     });
