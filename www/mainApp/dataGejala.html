@@ -2,7 +2,7 @@
 
     <div class='row'>
         <div style='margin-bottom: 15px;'>
-            <a href='#!' class="btn btn-warning" id="btnTambahGejala">Tambah Gejala</a>
+            <a href='#!' class="btn btn-warning" id="btnTambahGejala"><i class='fas fa-plus-circle'></i> Tambah Gejala</a>
         </div>
         <table class="table" id='myTable'>
             <thead>
@@ -40,7 +40,7 @@ $(document).ready(function(){
         // Add some text to the new cells:
         cell1.innerHTML = obj[index].kd_gejala;
         cell2.innerHTML = obj[index].gejala_kerusakan; 
-        cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary btnDetail' id='"+obj[index].kd_gejala+"'>Detail</a>";
+        cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary btnDetail' id='"+obj[index].kd_gejala+"'><i class='fas fa-info-circle'></i> Detail</a>";
         }      
     });
 
