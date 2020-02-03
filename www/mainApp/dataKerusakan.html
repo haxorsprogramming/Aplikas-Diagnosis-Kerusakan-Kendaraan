@@ -25,27 +25,25 @@ $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php',function(data){
         let obj = JSON.parse(data);
         obj.forEach(renderTabel);
         console.log(obj);
+        
         function renderTabel(item, index){
         let kd_jenis_kerusakan_s = obj[index].kd_jenis_kerusakan;
         var cap_jenis_kerusakan = "";
-        // console.log(item[index].kd_jenis_kerusakan);
         $.post('http://api.haxors.or.id/riyan/get_cap_jenis_kerusakan.php',{'kode':kd_jenis_kerusakan_s},function(data){
-            let obj = JSON.parse(data);
-            console.log(obj.jenis_kerusakan);
-            cap_jenis_kerusakan += obj.jenis_kerusakan;
-        });
-        var table = document.getElementById("tbl_kerusakan");
+            let objs = JSON.parse(data);
+            console.log(objs.jenis_kerusakan);
+            var table = document.getElementById("tbl_kerusakan");
         var row = table.insertRow(1);
-
         // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
-
         // Add some text to the new cells:
-        cell1.innerHTML = cap_jenis_kerusakan+"<br/>"+obj[index].kd_kerusakan;
+        cell1.innerHTML = "<b>"+objs.jenis_kerusakan+"</b><br/>"+obj[index].kd_kerusakan;
         cell2.innerHTML = obj[index].kerusakan; 
         cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary btnDetail' id='"+obj[index].kd_kerusakan+"'><i class='fas fa-info-circle'></i> Detail</a>";
+        });
+        
         }      
     });
 

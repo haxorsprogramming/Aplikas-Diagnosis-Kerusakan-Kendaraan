@@ -21,6 +21,13 @@ $(document).ready(function(){
         $('#divUtama').load('dataGejala.html');
     });
 
+    $('.btnUjiDiagnosis').click(function(){
+        togelSidebar();
+        $('#capUtama').html("Uji Diagnosis")
+        $('#divUtama').html("Memuat ... ");
+        $('#divUtama').load('ujiDiagnosis.html');
+    });
+
     $('.btnDataKerusakan').click(function(){
         togelSidebar();
         $('#capUtama').html("Data kerusakan & solusi");
