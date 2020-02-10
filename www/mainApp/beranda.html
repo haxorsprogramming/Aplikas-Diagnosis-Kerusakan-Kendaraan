@@ -2,12 +2,12 @@
     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
       <div class="card card-statistic-1">
         <div class="card-icon bg-primary">
-          <i class="fas fa-calculator"></i>
+          <i class="fas fa-microscope"></i>
         </div>
         <div class="card-wrap">
           <div class="card-header">
-          <h3>12</h3>
-            <h4>Total Uji </h4>
+          <h3 id='capTotalUji'>-</h3>
+            <h4>Total Uji</h4>
           </div>
           <div class="card-body">
          
@@ -18,11 +18,11 @@
     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
       <div class="card card-statistic-1">
         <div class="card-icon bg-danger">
-          <i class="fas fa-calculator"></i>
+          <i class="fas fa-stethoscope"></i>
         </div>
         <div class="card-wrap">
           <div class="card-header">
-          <h3>12</h3>
+          <h3 id='capTotalGejala'>12</h3>
             <h4>Gejala</h4>
           </div>
           <div class="card-body">
@@ -34,11 +34,11 @@
     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
       <div class="card card-statistic-1">
         <div class="card-icon bg-warning">
-          <i class="fas fa-calculator"></i>
+          <i class="	fas fa-chart-line"></i>
         </div>
         <div class="card-wrap">
           <div class="card-header">
-          <h3>12</h3>
+          <h3 id='capTotalSolusi'>12</h3>
             <h4>Solusi</h4>
           </div>
           <div class="card-body">
@@ -47,21 +47,27 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-      <div class="card card-statistic-1">
-        <div class="card-icon bg-success">
-          <i class="fas fa-calculator"></i>
-        </div>
-        <div class="card-wrap">
-          <div class="card-header">
-          <h3>12</h3>
-            <h4>Pelanggan</h4>
-          </div>
-          <div class="card-body">
-         
-          </div>
-        </div>
-      </div>
+    <div style="padding-left:25%;">
+      <a href='#!' class="btn btn-primary btn-lg" id='btnMulaiDiagnosis'><i class='fas fa-clipboard-check'></i> Mulai Diagnosis</a>
     </div>
   </div>
   </div>
+  <script>
+    $.post('http://api.haxors.or.id/riyan/get_item_beranda.php', function(data){
+      let obj = JSON.parse(data);
+      let j_data_uji = obj.j_data_uji;
+      let j_data_gejala = obj.j_data_gejala;
+      let j_data_solusi = obj.j_data_solusi;
+
+      $('#capTotalUji').html(j_data_uji);
+      $('#capTotalGejala').html(j_data_gejala);
+      $('#capTotalSolusi').html(j_data_solusi);
+    });
+
+    $('#btnMulaiDiagnosis').click(function(){
+       $('#capUtama').html("Uji Diagnosis")
+        $('#divUtama').html("Memuat ... ");
+        $('#divUtama').load('ujiDiagnosis.html');
+    });
+
+  </script>

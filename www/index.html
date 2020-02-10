@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="ladun/login/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="ladun/login/vendors/base/vendor.bundle.base.css">
   <link rel="stylesheet" href="https://demo.getstisla.com/assets/modules/izitoast/css/iziToast.min.css">
+  <link rel="stylesheet" href="https://demo.getstisla.com/assets/modules/fontawesome/css/all.min.css">
   <!-- endinject -->
   <!-- plugin css for this page -->
   <!-- End plugin css for this page -->
@@ -40,19 +41,14 @@
                     <div id='frm_pelanggan'>
                      Masukkan kode uji anda <br/>
                      <input type="text" class="form-control form-control-lg" id="txtKodeUji" placeholder="Kode Uji">
-                     <a href='#!' class="btn btn-primary" id='btnLihatHasil' style='margin-top:12px;'>Lihat Hasil</a><br/>
-                    <div id='hasil' style="margin-top:12px;margin-bottom:12px;">
-                      Kode Uji : <span id='capKode'></span><br/>
-                      Pelanggan : <span id='capPelanggan'></span><br/>
-                      Mobil : <span id='capMobil'></span><br/>
-                      Waktu : <span id='capWaktu'></span><br/>
-                      Kerusakan: <span id='capKerusakan'></span><br/>
-                    </div>
-                     <div style='padding-top:10px;'>
-                        <div class="alert alert-primary" role="alert">
-                            Anda admin? silahkan masuk <br/>
-                            <a href='#!' id='btnMasukAplikasi' class="btn btn-sm btn-default">Masuk Aplikasi</a>
-                        </div>
+                     <a href='#!' class="btn btn-primary" id='btnLihatHasil' style='margin-top:12px;'><i class='fas fa-search'></i> Lihat Hasil Uji</a><br/>
+                    
+                    <hr/>
+                    <a href="#!" class="btn btn-dark" id="btnMasukAplikasi"><i class="fas fa-info-circle"></i> Masuk Aplikasi</a>
+                     <!-- <div style='padding-top:10px;'>
+                        
+                          <a href="#!" class="btn btn-icon icon-left btn-primary" id="btnMasukAplikasi"><i class="fas fa-info-circle"></i> Masuk Aplikasi</a>
+                             <a href='#!' id='btnMasukAplikasi' class="btn btn-sm btn-default">Masuk Aplikasi</a> -->
                         
                     </div>                   
                     </div>
@@ -93,6 +89,47 @@
   </div>
   <!-- container-scroller -->
   <!-- base:js -->
+
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Hasil Pengujian</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>Kode Uji</td><td id='capKode'>-</td>
+          </tr>
+          <tr>
+            <td>Nama Pelanggan</td><td id='capPelanggan'>-</td>
+          </tr>
+          <tr>
+            <td>Merek Mobil</td><td id='capMobil'>-</td>
+          </tr>
+          <tr>
+            <td>Waktu Uji</td><td id='capWaktu'>-</td>
+          </tr>
+          <tr>
+            <td>Kerusakan</td><td id='capKerusakan'>-</td>
+          </tr>
+          <tr>
+            <td>Solusi</td><td id='capSolusi'>-</td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="ladun/login/vendors/base/vendor.bundle.base.js"></script>
   <script src="https://demo.getstisla.com/assets/modules/izitoast/js/iziToast.min.js"></script>

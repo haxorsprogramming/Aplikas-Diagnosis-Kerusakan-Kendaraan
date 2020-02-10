@@ -14,6 +14,13 @@ $(document).ready(function(){
         $('#divUtama').html("Memuat ... ");
     });
 
+    $('.btnDashboard').click(function(){
+        togelSidebar();
+        $('#capUtama').html("Dashboard Aplikasi")
+        $('#divUtama').html("Memuat ... ");
+        $('#divUtama').load('beranda.html');
+    });
+
     $('.btnDataGejala').click(function(){
         togelSidebar();
         localStorage.clear();
