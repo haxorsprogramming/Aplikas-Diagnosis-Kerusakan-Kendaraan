@@ -1,6 +1,62 @@
 <div class="container">
+    <div class="row" id='frmEditGejala'>
+        <tr>
+            <td>Kd gejala</td>
+            <td><input type='text' class="form-control" disabled id='txtKdGejala'></td>
+        </tr>
+        <tr>
+            <td>Gejala</td>
+            <td> <textarea class="form-control" id='txtGejala'></textarea></td>
+        </tr>
+        <div style='margin-top:6px;'>
+            <a href='#!' class="btn btn-sm btn-primary" id='btnUpdateGejala'>Update</a>
+            <a href='#!' class="btn btn-sm btn-warning" id='btnHapusgejala'>Hapus</a>
+            <a href='#!' class="btn btn-sm btn-light btnKembali">Kembali</a>
+        </div>
+        <br/>
+        <br/>
+        <div>
+            Kerusakan<br/>
+            <strong>
+                <span id='capKerusakanGejala'>-</span>
+            </strong>
+            <br/>
+            <div style="margin-top:15px;">
+                <a href='#!' class="btn btn-sm btn-primary" id='btnUpdateKerusakan'>Update kerusakan</a>
+            </div>
+        </div>       
+    </div>
 
-    <div class='row'>
+    <div id='frmGejalaKerusakan'>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Kd gejala</td>
+                    <td><input type='text' class="form-control" disabled id='txtKdGejala2'></td>
+                </tr>
+                <tr>
+                    <td>Gejala</td>
+                    <td><span id='txtGejala2'></span></td>
+                </tr>
+                <tr>
+                    <td>Kerusakan</td>
+                    <td><span id='txtKerusakanCap'></span></td>
+                </tr>
+                <tr>
+                    <td>Ubah ke</td>
+                    <td>
+                        <select class="form-control" id='txtDaftarKerusakan'>
+                           
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="#!" class="btm btn-sm btn-primary btnUpdateKerusakan">Update</a>
+        <a href='#!' class="btn btn-sm btn-light btnKembali">Kembali</a>
+    </div>
+
+    <div class='row' id='frmDataGejala'>
         <div style='margin-bottom: 15px;'>
             <a href='#!' class="btn btn-warning" id="btnTambahGejala"><i class='fas fa-plus-circle'></i> Tambah Gejala</a>
         </div>
@@ -19,7 +75,8 @@
 
 <script>
 $(document).ready(function(){
-    
+    $('#frmEditGejala').hide();
+    $('#frmGejalaKerusakan').hide();
     $('#myTable').DataTable({
             "lengthChange": false,
             "searching": false
@@ -40,7 +97,7 @@ $(document).ready(function(){
         // Add some text to the new cells:
         cell1.innerHTML = obj[index].kd_gejala;
         cell2.innerHTML = obj[index].gejala_kerusakan; 
-        cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary btnDetail' id='"+obj[index].kd_gejala+"'><i class='fas fa-info-circle'></i> Detail</a>";
+        cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary btnDetail' id='"+obj[index].kd_gejala+"'><i class='fas fa-info-circle'></i> Edit</a>";
         }      
     });
 
@@ -52,8 +109,94 @@ $(document).ready(function(){
 
    $('#myTable').on('click','.btnDetail', function(){
     let kdGejala = $(this).attr('id');
-    window.alert(kdGejala);
-    
+    // $('#divUtama').html("Memuat ..");
+    $('#frmEditGejala').show();
+    $('#frmDataGejala').hide();
+    $('#txtKdGejala').val(kdGejala);
+    $.post('http://api.haxors.or.id/riyan/get_data_gejala_detail.php',{'kdGejala':kdGejala},function(data){
+        let obj = JSON.parse(data);
+        console.log(obj);
+        $('#txtGejala').val(obj.gejala_kerusakan);
+        $('#capKerusakanGejala').html(obj.cap_kerusakan);
+        $('#txtGejala').focus();
+    });
+   });
+
+   $("#btnUpdateGejala").click(function(){
+        let gejala = $('#txtGejala').val();
+        let kdGejala = $('#txtKdGejala').val();
+        if(gejala === ''){
+            window.alert("Harap isi gejala!!");
+        }else{
+            // console.log(dataSend);
+            $.post('http://api.haxors.or.id/riyan/update_data_gejala.php',{'gejala':gejala,'kdGejala':kdGejala},function(data){
+                window.alert("Data gejala berhasil di update...");
+                $('#divUtama').html("Memuat ... ");
+                $('#divUtama').load('dataGejala.html');
+            });
+        }
+   });
+
+   $('#btnHapusgejala').click(function(){
+    let kdGejala = $('#txtKdGejala').val();
+    let konfirmHapus = window.confirm("Anda yakin menghapus gejala?");
+    if(konfirmHapus === true){
+        $.post('http://api.haxors.or.id/riyan/hapus_data_gejala.php',{'kdGejala':kdGejala},function(data){
+        window.alert("Data gejala berhasil di hapus...");
+        $('#divUtama').html("Memuat ... ");
+        $('#divUtama').load('dataGejala.html');
+    });
+    }else{
+    }    
+   });
+
+   $('#btnUpdateKerusakan').click(function(){
+    let kdGejala = $('#txtKdGejala').val();
+    // localStorage.kdGejalaSes = kdGejala;
+    // localStorage.setItem("kdGejalaSes", kdGejala);
+    $('#capUtama').html("Update gejala kerusakan");
+    $('#frmEditGejala').hide();
+    $.post('http://api.haxors.or.id/riyan/update_gejala_kerusakan.php',{'kdGejala':kdGejala}, function(data){
+        let obj = JSON.parse(data);
+        let gejalaKerusakan = obj.gejala_kerusakan;
+        let capKerusakan = obj.cap_kerusakan;
+        let kdKerusakan = obj.kd_kerusakan;
+        $('#txtGejala2').html(gejalaKerusakan);
+        $('#txtKerusakanCap').html(capKerusakan);
+       
+        console.log(obj);
+    });
+    $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php',function(data){
+        let obj = JSON.parse(data);
+    obj.forEach(renderSelec);
+
+    function renderSelec(item, index){
+      var sel = document.getElementById('txtDaftarKerusakan');
+      var opt = document.createElement('option');
+      opt.appendChild(document.createTextNode(item.kd_kerusakan+" - "+item.kerusakan));
+      opt.value = item.kd_kerusakan;
+      sel.appendChild(opt);
+    }
+    });
+    $('#txtKdGejala2').val(kdGejala);
+    $('#frmGejalaKerusakan').show();
+   });
+
+   $('#frmGejalaKerusakan').on('click','.btnUpdateKerusakan',function(){
+    let kdGejala = $('#txtKdGejala').val();
+    let kdKerusakan = $('#txtDaftarKerusakan').val();
+    $.post('http://api.haxors.or.id/riyan/update_gejala_kerusakan_2.php',{'kdGejala':kdGejala,'kdKerusakan':kdKerusakan},function(data){
+        window.alert("Data gejala kerusakan berhasil di update");
+        $('#capUtama').html("Data Gejala")
+    $('#divUtama').html("Memuat ... ");
+    $('#divUtama').load('dataGejala.html');
+    });
+  });
+
+   $('.btnKembali').click(function(){
+    $('#capUtama').html("Data Gejala")
+    $('#divUtama').html("Memuat ... ");
+    $('#divUtama').load('dataGejala.html');
    });
 
 });
