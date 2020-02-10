@@ -23,7 +23,7 @@ $(document).ready(function(){
 
     $('.btnUjiDiagnosis').click(function(){
         togelSidebar();
-        $('#capUtama').html("Data Gejala")
+        $('#capUtama').html("Uji Diagnosis")
         $('#divUtama').html("Memuat ... ");
         $('#divUtama').load('ujiDiagnosis.html');
     });
