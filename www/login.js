@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('#frm_login').hide();
+    $('#hasil').hide();
     let statusKoneksi = navigator.onLine;
 
     if(statusKoneksi === true){
@@ -70,7 +71,7 @@ $(document).ready(function(){
             window.alert("Harap isi kode uji!!");
         }else{
             $.post('http://api.haxors.or.id/riyan/get_hasil.php',{'kodeUji':kodeUji},function(data){
-                let obj = JSON.parse(kodeUji);
+                let obj = JSON.parse(data);
                 $('#capKode').html(kodeUji);
                 $('#capPelanggan').html(obj.pelanggan);
                 // Pelanggan : <span id='capPelanggan'></span><br/>
@@ -79,7 +80,8 @@ $(document).ready(function(){
                 // Kerusakan: <span id='capKerusakan'></span><br/>
                 $('#capMobil').html(obj.mobil);
                 $('#capWaktu').html(obj.waktu);
-                $('$capKerusakan').html(obj.capKerusakan);
+                $('#capKerusakan').html(obj.capKerusakan);
+                $('#hasil').show();
             });
         }
     });
