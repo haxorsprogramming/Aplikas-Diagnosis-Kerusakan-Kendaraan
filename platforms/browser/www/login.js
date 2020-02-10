@@ -64,4 +64,24 @@ $(document).ready(function(){
     }
     
 
+    $('#btnLihatHasil').click(function(){
+        let kodeUji = $('#txtKodeUji').val();
+        if(kodeUji === ''){
+            window.alert("Harap isi kode uji!!");
+        }else{
+            $.post('http://api.haxors.or.id/riyan/get_hasil.php',{'kodeUji':kodeUji},function(data){
+                let obj = JSON.parse(kodeUji);
+                $('#capKode').html(kodeUji);
+                $('#capPelanggan').html(obj.pelanggan);
+                // Pelanggan : <span id='capPelanggan'></span><br/>
+                // Mobil : <span id='capMobil'></span><br/>
+                // Waktu : <span id='capWaktu'></span><br/>
+                // Kerusakan: <span id='capKerusakan'></span><br/>
+                $('#capMobil').html(obj.mobil);
+                $('#capWaktu').html(obj.waktu);
+                $('$capKerusakan').html(obj.capKerusakan);
+            });
+        }
+    });
+
 });

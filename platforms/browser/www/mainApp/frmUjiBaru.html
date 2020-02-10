@@ -1,0 +1,184 @@
+<div class="container">
+    <div class="progress mb-3" data-height="5" style="height: 5px;">
+        <div class="progress-bar" id='divProgress' role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+      </div>
+</div>
+
+<div class="container" id='divPrepare'>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Kd Uji</td>
+            <td><span id='kodeUji'></span></td>
+        </tr>
+        <tr>
+            <td>Nama Pelanggan</td>
+            <td><input type="text" class="form-control" id='txtNamaPelanggan'></td>
+        </tr>
+        <tr>
+            <td>Merek Mobil</td>
+            <td><input type="text" class="form-control" id='txtMerekMobil'></td>
+        </tr>
+    </thead>
+</table>
+<div>
+    <a href='#!' class="btn btn-primary" id='btnSelanjutnya'>Selanjutnya</a>
+</div>
+</div>
+
+<div class="container" id='divCheckGejala'>
+Pilih gejala 
+<div class="form-check" id='chkDataGejala' style="margin-bottom:20px;"></div>
+<div style="margin-top:12px;margin-bottom:12px;"><span id='divTotalDipilih'></span></div>
+<a href='#!' class="btn btn-primary" id='btnCekDiagnosis'>Mulai Diagnosis</a>
+</div>
+<div id='divDataProbabilitas'>
+    <h5>Hasil probabilitas sementara</h5>
+<table class="table" id='tblProbSementara'>
+    <thead>
+        <tr>
+            <td>Kerusakan</td>
+            <td>Nilai</td>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<div style="margin-top:15px;" id='hasilHitung'>
+Hasil diagnosa yaitu kendaraan anda mengalami kerusakan : <b><span id='capHKerusakan'></span></b><br/>
+Dengan akurasi <span id='capHPersen'></span><br/>
+
+</div>
+<div>
+    <a href='#!' class="btn btn-primary" id='btnHitung'>Proses Hitung</a>&nbsp;
+    <a href='#!' class="btn btn-warning" id='btnKembaliUji'>Kembali</a>
+</div>
+</div>
+<script>
+    var gejala = [];
+    
+    // $('#kodeUji').html(kdUji);
+    $('#divCheckGejala').hide();
+    $('#divDataProbabilitas').hide();
+    $('#hasilHitung').hide();
+    $.post('http://api.haxors.or.id/riyan/get_kd_uji_baru.php', function(data){
+        let obj = JSON.parse(data);
+        $('#kodeUji').html(obj.kdUji);
+    });
+
+    $("#btnSelanjutnya").click(function(){
+
+        let namaPelanggan = $('#txtNamaPelanggan').val();
+        let merekMobil = $('#txtMerekMobil').val();
+
+        if(namaPelanggan === "" || merekMobil === ""){
+            window.alert("Harap isi nama pelanggan & merek mobil!!");
+        }else{            
+        $('#divPrepare').hide();
+        document.getElementById("divProgress").style["width"] = "40%";
+        // $('#divProgress').style['']
+        $.post('http://api.haxors.or.id/riyan/get_data_gejala.php',function(data){
+        let obj = JSON.parse(data);
+        obj.forEach(renderTabel);
+        function renderTabel(item, index){
+            $('#chkDataGejala').append('<br/><input class="form-check-input ckGejala" type="checkbox" id="'+obj[index].kd_gejala+'"><label class="form-check-label" for="'+obj[index].kd_gejala+'">'+obj[index].gejala_kerusakan+'</label>');
+        }      
+        });
+        $('#divCheckGejala').show();
+        }
+
+        // $('#chkDataGejala').append('<br/><input class="form-check-input" type="checkbox" id="defaultCheck4"><label class="form-check-label" for="defaultCheck4">Checkbox 4</label>');
+    });
+
+    $('#chkDataGejala').on('click','.ckGejala',function(){
+        let kdGejala = $(this).attr('id');
+        let nGejala = gejala.includes(kdGejala);
+        if(nGejala === true){
+            let gejalaKe = gejala.indexOf(kdGejala);
+            console.log("Array sudah ada");
+            gejala.splice(gejalaKe, 1);
+        }else{
+            console.log("Array belum ada");
+            gejala.push(kdGejala);
+        }
+        let isiGejala = gejala.length;
+        $('#divTotalDipilih').html("Total gejala dipilih : "+ isiGejala + " gejala");
+        console.log(gejala);
+        // window.alert(kdGejala);
+    });
+
+    $('#btnCekDiagnosis').click(function(){
+        let isiGejala = gejala.length;
+        if(isiGejala < 1 ){
+            window.alert("Harap pilih satu atau lebih gejala!!");
+        }else{
+            $('#divCheckGejala').slideUp();
+            let dataGejalaKirim = gejala.toString();
+            let namaPelanggan = $('#txtNamaPelanggan').val();
+            let merekMobil = $('#txtMerekMobil').val();
+            let kodeUji = $('#kodeUji').html();
+            // console.log(namaPelanggan+merekMobil+kodeUji);
+            document.getElementById("divProgress").style["width"] = "70%";
+            $.post('http://api.haxors.or.id/riyan/hitung_probabilitas.php',{'dataGejala':dataGejalaKirim,'namaPelanggan':namaPelanggan,'merekMobil':merekMobil,'kodeUji':kodeUji},function(data){
+                let obj = JSON.parse(data);
+                console.log(obj);
+            });
+            $('#divDataProbabilitas').slideDown();
+            $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php',function(data){
+                let obj = JSON.parse(data);
+                let nilaiPer = 0;
+                let kdJuara = "";
+
+             obj.forEach(myFunction);
+                function myFunction(item, index){
+                    var table = document.getElementById("tblProbSementara");
+                    var row = table.insertRow(1);
+
+                    // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    let kdLoop = obj[index].kd_kerusakan;
+                    $.post('http://api.haxors.or.id/riyan/get_nilai_prob_sementara.php',{'kdKerusakan':kdLoop,'kodeUji':kodeUji},function(data){
+                    let objS = JSON.parse(data);
+                    let jlhRekord = objS.total;
+                    if(jlhRekord > nilaiPer){
+                        nilaiPer = jlhRekord;
+                        kdJuara = obj[index].kd_kerusakan;
+                    }else{
+
+                    }
+                    // Add some text to the new cells:
+                    cell1.innerHTML = obj[index].kd_kerusakan+"<br/>"+obj[index].kerusakan;
+                    cell2.innerHTML = objS.total; 
+                   
+                    });                  
+                
+            }
+           
+            });
+        }
+    });
+
+    $('#btnHitung').click(function(){
+        document.getElementById("divProgress").style["width"] = "100%";
+        let namaPelanggan = $('#txtNamaPelanggan').val();
+        let merekMobil = $('#txtMerekMobil').val();
+        let kodeUji = $('#kodeUji').html();
+        $.post('http://api.haxors.or.id/riyan/hitung_final.php',{'namaPelanggan':namaPelanggan,'merekMobil':merekMobil,'kodeUji':kodeUji},function(data){
+            console.log(data);
+            let obj = JSON.parse(data);
+            $('#capHPersen').html(obj.hasil+"%");
+            $('#capHKerusakan').html(obj.capKerusakan);
+            $('#hasilHitung').show();
+            $('#btnHitung').hide();
+        });
+    });
+
+    $('#btnKembaliUji').click(function(){
+        $('#capUtama').html("Uji Diagnosis")
+        $('#divUtama').html("Memuat ... ");
+        $('#divUtama').load('ujiDiagnosis.html');
+    });
+
+</script>
