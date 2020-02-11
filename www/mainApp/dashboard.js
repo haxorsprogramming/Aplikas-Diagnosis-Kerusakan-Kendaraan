@@ -16,7 +16,7 @@ $(document).ready(function(){
 
     $('.btnDashboard').click(function(){
         togelSidebar();
-        $('#capUtama').html("Dashboard Aplikasi")
+        $('#capUtama').html("Dashboard Aplikasi");
         $('#divUtama').html("Memuat ... ");
         $('#divUtama').load('beranda.html');
     });
@@ -24,14 +24,14 @@ $(document).ready(function(){
     $('.btnDataGejala').click(function(){
         togelSidebar();
         localStorage.clear();
-        $('#capUtama').html("Data Gejala")
+        $('#capUtama').html("Data Gejala");
         $('#divUtama').html("Memuat ... ");
         $('#divUtama').load('dataGejala.html');
     });
 
     $('.btnUjiDiagnosis').click(function(){
         togelSidebar();
-        $('#capUtama').html("Uji Diagnosis")
+        $('#capUtama').html("Uji Diagnosis");
         $('#divUtama').html("Memuat ... ");
         $('#divUtama').load('ujiDiagnosis.html');
     });
@@ -41,6 +41,13 @@ $(document).ready(function(){
         $('#capUtama').html("Data kerusakan & solusi");
         $('#divUtama').html("Memuat ...");
         $('#divUtama').load('dataKerusakan.html');
+    });
+
+    $('.btnSettingUser').click(function(){
+        togelSidebar();
+        $('#capUtama').html("Data User");
+        $('#divUtama').html("Memuat ...");
+        $('#divUtama').load("settingUser.html");
     });
 
     function togelSidebar(){
