@@ -46,7 +46,7 @@
               <td>Kerusakan</td><td id='capKerusakan'>-</td>
             </tr>
             <tr>
-              <td>Solusi</td><td id='capSolusi'>-</td></td>
+              <td>Solusi</td><td id='capSolusi'>-</td>
             </tr>
           </table>
         </div>
@@ -56,9 +56,9 @@
       </div>
     </div>
   </div>
-  
+
 <script>
-       
+
 $('#btnUjiBaru').click(function(){
     $('#divUtama').html("Memuat ... ");
     $('#capUtama').html("Uji Diagnosis Baru")
@@ -79,7 +79,7 @@ $.post('http://api.haxors.or.id/riyan/get_history_uji.php',function(data){
         // <a href='#!' class='btn btn-icon icon-left'><i class='far fa-user'></i> Default</a>
         // Add some text to the new cells:
         cell1.innerHTML = obj[index].kd_gejala;
-        cell2.innerHTML = "<a href='#!' class='btn btn-icon btn-sm icon-left'><i class='far fa-user'></i> "+obj[index].nama_pelanggan+"</a><br/><a href='#!' class='btn btn-icon btn-sm icon-left'><i class='far fa-clock'></i> "+obj[index].waktu_uji+"</a><br/><a href='#!' class='btn btn-icon btn-sm icon-left'><i class='fas fa-taxi'></i> "+obj[index].nama_mobil+"</a>"; 
+        cell2.innerHTML = "<a href='#!' class='btn btn-icon btn-sm icon-left'><i class='far fa-user'></i> "+obj[index].nama_pelanggan+"</a><br/><a href='#!' class='btn btn-icon btn-sm icon-left'><i class='far fa-clock'></i> "+obj[index].waktu_uji+"</a><br/><a href='#!' class='btn btn-icon btn-sm icon-left'><i class='fas fa-taxi'></i> "+obj[index].nama_mobil+"</a>";
         cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary btnDetail' id='"+obj[index].kd_gejala+"'><i class='fas fa-info-circle'></i> Detail</a>";
         }
         // renderDatatable();

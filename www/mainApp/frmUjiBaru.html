@@ -27,7 +27,19 @@
 </div>
 
 <div class="container" id='divCheckGejala'>
-Pilih gejala 
+Pilih gejala
+
+<div class="container row" style='margin-bottom:14px;'>
+    <label>Tipe Kerusakan</label>
+    <select class="form-control" id="txtTipeKerusakanAwal">
+      <option value="none">-- Pilih kerusakan --</option>
+      <option value='A'>Sistem Mesin</option>
+      <option value='B'>Sistem Kemudi</option>
+      <option value='C'>Sistem Pengereman</option>
+      <option value='D'>Sistem Kelistrikan</option>
+    </select>
+</div>
+
 <div class="form-check custom-control custom-checkbox" id='chkDataGejala' style="margin-bottom:20px;"></div>
 <div style="margin-top:12px;margin-bottom:12px;"><span id='divTotalDipilih'></span></div>
 <a href='#!' class="btn btn-primary" id='btnCekDiagnosis'>Mulai Diagnosis</a>
@@ -57,7 +69,7 @@ Dengan akurasi <span id='capHPersen'></span><br/>
 </div>
 <script>
     var gejala = [];
-    
+
     // $('#kodeUji').html(kdUji);
     $('#divCheckGejala').hide();
     $('#divDataProbabilitas').hide();
@@ -68,6 +80,30 @@ Dengan akurasi <span id='capHPersen'></span><br/>
         $('#kodeUji').html(obj.kdUji);
     });
 
+    function renderKeTabelUji(){
+      $('#chkDataGejala').html("");
+      let kdTipeKerusakan = $('#txtTipeKerusakanAwal').val();
+      $.post('http://api.haxors.or.id/riyan/get_data_gejala_new.php',{'kdJenis':kdTipeKerusakan}, function(data){
+         let obj = JSON.parse(data);
+         obj.forEach(renderTabel);
+          function renderTabel(item, index){
+            $('#chkDataGejala').append('<br/><input class="form-check-input ckGejala" type="checkbox" id="'+obj[index].kd_gejala+'"><label class="form-check-label" for="'+obj[index].kd_gejala+'">'+obj[index].gejala_kerusakan+'</label>');
+            $('#divCheckGejala').show();
+          }
+      });
+    //   //   let obj = JSON.parse(data);
+    //   //   obj.forEach(renderTabel);
+    //   //   function renderTabel(item, index){
+    //   //       $('#chkDataGejala').append('<br/><input class="form-check-input ckGejala" type="checkbox" id="'+obj[index].kd_gejala+'"><label class="form-check-label" for="'+obj[index].kd_gejala+'">'+obj[index].gejala_kerusakan+'</label>');
+    //   //       $('#divCheckGejala').show();
+    //   //   }
+    //   // });
+    }
+
+    document.getElementById('txtTipeKerusakanAwal').addEventListener("change", function(){
+      setTimeout(renderKeTabelUji(), 300);
+    });
+
     $("#btnSelanjutnya").click(function(){
 
         let namaPelanggan = $('#txtNamaPelanggan').val();
@@ -75,21 +111,12 @@ Dengan akurasi <span id='capHPersen'></span><br/>
 
         if(namaPelanggan === "" || merekMobil === ""){
             window.alert("Harap isi nama pelanggan & merek mobil!!");
-        }else{            
+        }else{
         $('#divPrepare').hide();
         document.getElementById("divProgress").style["width"] = "40%";
-        // $('#divProgress').style['']
-        $.post('http://api.haxors.or.id/riyan/get_data_gejala.php',function(data){
-        let obj = JSON.parse(data);
-        obj.forEach(renderTabel);
-        function renderTabel(item, index){
-            $('#chkDataGejala').append('<br/><input class="form-check-input ckGejala" type="checkbox" id="'+obj[index].kd_gejala+'"><label class="form-check-label" for="'+obj[index].kd_gejala+'">'+obj[index].gejala_kerusakan+'</label>');
-        }      
-        });
         $('#divCheckGejala').show();
         }
 
-        // $('#chkDataGejala').append('<br/><input class="form-check-input" type="checkbox" id="defaultCheck4"><label class="form-check-label" for="defaultCheck4">Checkbox 4</label>');
     });
 
     $('#chkDataGejala').on('click','.ckGejala',function(){
@@ -151,12 +178,12 @@ Dengan akurasi <span id='capHPersen'></span><br/>
                     }
                     // Add some text to the new cells:
                     cell1.innerHTML = obj[index].kd_kerusakan+"<br/>"+obj[index].kerusakan;
-                    cell2.innerHTML = objS.total; 
-                   
-                    });                  
-                
+                    cell2.innerHTML = objS.total;
+
+                    });
+
             }
-           
+
             });
         }
     });
