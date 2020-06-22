@@ -1,14 +1,51 @@
 <div class="container">
-    <div class='row'>
+  <div class="" id="frmTambahKerusakan">
+    <div class="form-group">
+        <label>Kode Kerusakan</label>
+        <input type="text" class="form-control" id='txtKodeKerusakan' placeholder="Kode Kerusakan">
+    </div>
+    <div class="form-group">
+        <label>Tipe Kerusakan</label>
+        <select class="form-control" id="txtTipeKerusakan">
+          <option value="none">-- Pilih kerusakan --</option>
+          <option value='A'>Sistem Mesin</option>
+          <option value='B'>Sistem Kemudi</option>
+          <option value='C'>Sistem Pengereman</option>
+          <option value='D'>Sistem Kelistrikan</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Kerusakan</label>
+        <textarea class="form-control" rows="8" cols="80" placeholder="Deksripsi kerusakan" id='txtKerusakan'></textarea>
+    </div>
+    <div class="form-group">
+        <label>Solusi</label>
+        <textarea class="form-control" rows="8" cols="80" placeholder="Solusi" id='txtSolusi'></textarea>
+    </div>
+    <div>
+      <a href='#!' class='btn btn-lg btn-primary' id='btnSimpan'><i class='fas fa-save'></i> Simpan Kerusakan</a>&nbsp;&nbsp;
+      <a href='#!' class='btn btn-lg btn-warning' id='btnKembaliKe'><i class='fas fa-arrow-alt-circle-left'></i> Kembali</a>
+    </div>
+  </div>
+    <div class='row' id="frmDataKerusakan">
         <div style='margin-bottom: 15px;'>
             <a href='#!' class="btn btn-warning" id="btnTambahKerusakan"><i class='fas fa-plus-circle'></i> Tambah Kerusakan</a>
         </div>
-        <table class="table" id='tbl_kerusakan'>
+        <div class="container row" style='margin-bottom:14px;'>
+            <label>Tipe Kerusakan</label>
+            <select class="form-control" id="txtTipeKerusakanAwal">
+              <option value="none">-- Pilih kerusakan --</option>
+              <option value='A'>Sistem Mesin</option>
+              <option value='B'>Sistem Kemudi</option>
+              <option value='C'>Sistem Pengereman</option>
+              <option value='D'>Sistem Kelistrikan</option>
+            </select>
+        </div>
+        <table class="table table-sm table-bordered" id='tbl_kerusakan'>
             <thead>
                 <tr>
-                    <td>Kd Kerusakan</td>
-                    <td>Kerusakan</td>
-                    <td>Aksi</td>
+                    <th>Kerusakan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
         </table>
@@ -16,35 +53,92 @@
 </div>
 
 <script>
- $('#tbl_kerusakan').DataTable({
-            "lengthChange": false,
-            "searching": false
+//sembunyikan form tambah kerusakan
+$('#frmTambahKerusakan').hide();
+
+var jumlahBaris = 0;
+var awalLoadTabel = true;
+var jumlahbarisLama = 0;
+
+function renderKeTabel(){
+  let kdJenis = $('#txtTipeKerusakanAwal').val();
+
+  if(kdJenis === 'none'){
+
+  }else{
+    if(awalLoadTabel === true){
+      awalLoadTabel = false;
+    }else{
+      var i;
+      for(i = 0; i < jumlahBaris; i++){
+       document.getElementById("tbl_kerusakan").deleteRow(1);
+      }
+    }
+    $.post('http://api.haxors.or.id/riyan/get_data_kerusakan_new.php',{'kdJenis':kdJenis},function(data){
+     let obj = JSON.parse(data);
+     jumlahBaris = obj.length;
+     console.log(jumlahBaris);
+
+     obj.forEach(renderTabelKerusakan);
+
+     function renderTabelKerusakan(item, index){
+       const table = document.getElementById("tbl_kerusakan");
+       var row = table.insertRow(1);
+       var cell1 = row.insertCell(0);
+       var cell2 = row.insertCell(1);
+       cell1.innerHTML = "<b>"+obj[index].kd_kerusakan+"</b><br/>"+ obj[index].kerusakan;
+       cell2.innerHTML = "<a href='#!' class='btn btn-primary btn-sm btnDetail'>Edit</a>";
+     }
+    });
+  }
+}
+
+document.getElementById('txtTipeKerusakanAwal').addEventListener("change", function(){
+  setTimeout(renderKeTabel(), 300);
 });
 
-$.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php',function(data){
-        let obj = JSON.parse(data);
-        obj.forEach(renderTabel);
-        console.log(obj);
-        
-        function renderTabel(item, index){
-        let kd_jenis_kerusakan_s = obj[index].kd_jenis_kerusakan;
-        var cap_jenis_kerusakan = "";
-        $.post('http://api.haxors.or.id/riyan/get_cap_jenis_kerusakan.php',{'kode':kd_jenis_kerusakan_s},function(data){
-            let objs = JSON.parse(data);
-            console.log(objs.jenis_kerusakan);
-            var table = document.getElementById("tbl_kerusakan");
-        var row = table.insertRow(1);
-        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        // Add some text to the new cells:
-        cell1.innerHTML = "<b>"+objs.jenis_kerusakan+"</b><br/>"+obj[index].kd_kerusakan;
-        cell2.innerHTML = obj[index].kerusakan; 
-        cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary btnDetail' id='"+obj[index].kd_kerusakan+"'><i class='fas fa-info-circle'></i> Detail</a>";
-        });
-        
-        }      
+$('#btnTambahKerusakan').click(function(){
+  $('#capUtama').html("Tambah Kerusakan");
+  $('#frmDataKerusakan').hide();
+  $('#frmTambahKerusakan').show();
+  $('#txtKodeKerusakan').focus();
+});
+
+$('#btnSimpan').click(function(){
+let kodeKerusakan = $('#txtKodeKerusakan').val();
+let tipeKerusakan = $('#txtTipeKerusakan').val();
+let kerusakan = $('#txtKerusakan').val();
+let solusi = $('#txtSolusi').val();
+var dataSend = {'kodeKerusakan':kodeKerusakan,'tipeKerusakan':tipeKerusakan,'kerusakan':kerusakan,'solusi':solusi}
+// console.log(dataSend);
+if(kodeKerusakan === '' || kerusakan === '' || solusi === ''){
+  window.alert("Harap lengkapi data yang dibutuhkan!!");
+}else{
+  if(tipeKerusakan === 'none'){
+  window.alert("Harap lengkapi data yang dibutuhkan!!");
+  }else{
+    $('#btnSimpan').addClass('disabled');
+    $.post('http://api.haxors.or.id/riyan/tambah_kerusakan.php',{'kodeKerusakan':kodeKerusakan,'tipeKerusakan':tipeKerusakan,'kerusakan':kerusakan,'solusi':solusi},function(data){
+      let obj = JSON.parse(data);
+      if(obj.status === 'sukses'){
+        $('#btnSimpan').removeClass('disabled');
+        window.alert("Data berhasil ditamahkan...");
+        $('#capUtama').html("Data kerusakan & solusi");
+        $('#divUtama').html("Memuat ...");
+        $('#divUtama').load('dataKerusakan.html');
+      }else{
+        window.alert("Data dengan kode kerusakan sudah ada. Harap input kembali!!");
+      }
     });
+  }
+}
+// console.log(kodeKerusakan, tipeKerusakan, kerusakan, solusi);
+});
+
+$('#btnKembaliKe').click(function(){
+  $('#capUtama').html("Data kerusakan & solusi");
+  $('#divUtama').html("Memuat ...");
+  $('#divUtama').load('dataKerusakan.html');
+});
 
 </script>
