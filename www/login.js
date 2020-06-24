@@ -2,10 +2,22 @@ var frmLogin = new Vue({
     el : '#frmLogin',
     data : {
         namaAplikasi : 'Sistem Pakar Diagnosis Kerusakan Mobil',
-        developer : 'Riyan Ramadhan Tambunan'
+        developer : 'Riyan Ramadhan Tambunan',
+        noUji : '',
+        username : '',
+        password : ''
     },
     methods : {
-        
+        bukaFormLogin : function()
+        {
+
+        },
+        lihatHasilUji : function()
+        {
+            let kodeUji = document.getElementById('txtKodeUji').value;
+            console.log(kodeUji);
+            
+        }
     }
 });
 
