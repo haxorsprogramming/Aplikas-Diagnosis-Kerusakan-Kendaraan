@@ -90,17 +90,7 @@ $(document).ready(function(){
                     $('#exampleModal').modal('show');
                     $('#btnLihatHasil').removeClass("disabled");
                 }
-                // $('#capKode').html(kodeUji);
-                // $('#capPelanggan').html(obj.pelanggan);
-                // Pelanggan : <span id='capPelanggan'></span><br/>
-                // Mobil : <span id='capMobil'></span><br/>
-                // Waktu : <span id='capWaktu'></span><br/>
-                // Kerusakan: <span id='capKerusakan'></span><br/>
-                // $('#capMobil').html(obj.mobil);
-                // $('#capWaktu').html(obj.waktu);
-                // $('#capKerusakan').html(obj.capKerusakan);
-                // $('#hasil').show();
-                
+
             });
         }
     });
