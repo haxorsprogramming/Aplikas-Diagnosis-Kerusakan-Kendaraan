@@ -53,9 +53,14 @@ function loginToApps()
     if(username === '' || password === ''){
         isiField();
     }else{
+        $('#btnMasuk').addClass('disabled');
         $.post('http://api.haxors.or.id/riyan/login_cek.php', dataSend, function(data){
             let obj = JSON.parse(data);
-            console.log(obj);
+            if(obj.status === 'sukses'){
+                aksi_sukses();
+            }else{
+                aksi_gagal();
+            }
         });
     }
 }
@@ -73,6 +78,7 @@ function aksi_gagal(){
             $('#txtPassword').val("");
             $('#txtUsername').focus();
             $('#btnMasuk').show();
+            $('#btnMasuk').removeClass('disabled');
         } 
       });
 }

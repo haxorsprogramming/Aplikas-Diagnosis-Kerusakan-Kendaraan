@@ -78,6 +78,7 @@ function aksi_gagal(){
             $('#txtPassword').val("");
             $('#txtUsername').focus();
             $('#btnMasuk').show();
+            $('#btnMasuk').removeClass('disabled');
         } 
       });
 }
@@ -103,3 +104,33 @@ function isiField()
         pauseOnHover : false
     });
 }
+
+
+
+// $('#btnLihatHasil').click(function(){
+//         let kodeUji = $('#txtKodeUji').val();
+
+//         if(kodeUji === ''){
+//             window.alert("Harap isi kode uji!!");
+//         }else{
+//             $('#btnLihatHasil').addClass("disabled");
+//             $.post('http://api.haxors.or.id/riyan/get_hasil.php',{'kodeUji':kodeUji},function(data){
+//                 let obj = JSON.parse(data);
+//                 if(obj.status === 'error'){
+//                     window.alert("Maaf, kode uji tidak ditemukan");
+//                     $('#btnLihatHasil').removeClass("disabled");
+//                     $('#txtKodeUji').focus();
+//                 }else{
+//                     $('#capKode').html(kodeUji);
+//                     $('#capPelanggan').html(obj.pelanggan);
+//                     $('#capMobil').html(obj.mobil);
+//                     $('#capWaktu').html(obj.waktu);
+//                     $('#capKerusakan').html(obj.capKerusakan);
+//                     $('#capSolusi').html(obj.solusi);
+//                     $('#exampleModal').modal('show');
+//                     $('#btnLihatHasil').removeClass("disabled");
+//                 }
+
+//             });
+//         }
+//     });
