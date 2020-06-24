@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -18,13 +17,13 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="ladun/login/css/style.css">
   <!-- endinject -->
-
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="main-panel">
+      <div class="main-panel" id='frmLogin'>
         <div class="content-wrapper d-flex align-items-center auth px-0">
           <div class="row w-100 mx-0">
             <div class="col-lg-4 mx-auto">
@@ -33,7 +32,7 @@
                   <img src="ladun/img/foto_depan.jpeg" alt="logo" style='width:100px; '>
                 </div>
                 <div style='text-align:center;'>
-                <h3><strong>Sistem Pakar Diagnosis Kerusakan Mobil </strong></h3>
+                <h3><strong>{{namaAplikasi}}</strong></h3>
 
                 <div>
                 <div class="pt-3">
@@ -73,7 +72,7 @@
 
                   </div>
                   <div style='padding-top:22px;'>
-                      <h5 class="font-weight-light">By : Riyan Ramadhan Tambunan</h5>
+                      <h5 class="font-weight-light">By : {{developer}}</h5>
                       <i><strong><span id='divStatServer'></span></strong></i>
                     </div>
                 </div>

@@ -1,3 +1,14 @@
+var frmLogin = new Vue({
+    el : '#frmLogin',
+    data : {
+        namaAplikasi : 'Sistem Pakar Diagnosis Kerusakan Mobil',
+        developer : 'Riyan Ramadhan Tambunan'
+    },
+    methods : {
+        
+    }
+});
+
 $(document).ready(function(){
     $('#frm_login').hide();
     $('#hasil').hide();
