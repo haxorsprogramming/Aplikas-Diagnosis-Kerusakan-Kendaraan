@@ -30,13 +30,12 @@
         <div class="form-group">
             <label>Tipe</label>
             <select id="txtTipe" class="form-control">
-                <option value="none">-- Pilih Tipe User --</option>
-                <option value="admin">Administrator</option>
-                <option value="teknisi">Teknisi</option>
+                <option value="a">Administrator</option>
+                <option value="t">Teknisi</option>
             </select>
         </div>
         <div>
-            <a href='#!' class="btn btn-lg btn-primary" id='btnSimpanUser'><i class='fas fa-save'></i> Simpan</a>&nbsp;&nbsp;
+            <a href='#!' class="btn btn-lg btn-primary" id='btnSimpanUser' v-on:click='tambahUserAtc'><i class='fas fa-save'></i> Simpan</a>&nbsp;&nbsp;
             <a href="#!" class="btn btn-lg btn-warning" id='btnKembali'><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
     </div>
