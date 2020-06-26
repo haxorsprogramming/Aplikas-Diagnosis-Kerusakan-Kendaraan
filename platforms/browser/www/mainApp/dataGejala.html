@@ -22,7 +22,7 @@
             </strong>
             <br/>
             <div style="margin-top:15px;">
-                <a href='#!' class="btn btn-sm btn-primary" id='btnUpdateKerusakan'>Update kerusakan</a>
+                <a href='#!' class="btn btn-sm btn-primary" id='btnUpdateKerusakan' v-on:click='btnUpdateKerusakanAtc'>Update kerusakan</a>
             </div>
         </div>       
     </div>
@@ -46,13 +46,13 @@
                     <td>Ubah ke</td>
                     <td>
                         <select class="form-control" id='txtDaftarKerusakan'>
-                           
+                            <option v-for='lk in listKerusakan' :value='lk.id'>{{lk.text}}</option>
                         </select>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <a href="#!" class="btm btn-sm btn-primary btnUpdateKerusakan">Update</a>
+        <a href="#!" class="btm btn-sm btn-primary" v-on:click='updateKerusakanAtc'>Update</a>
         <a href='#!' class="btn btn-sm btn-light btnKembali">Kembali</a>
     </div>
 

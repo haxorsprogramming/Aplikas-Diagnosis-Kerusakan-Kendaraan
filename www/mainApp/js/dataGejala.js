@@ -4,7 +4,9 @@ var divDataGejala = new Vue({
         gejalaUp : '',
         kdGejalaUp : '',
         listGejala : [],
-        kdGejala : ''
+        kdGejala : '',
+        listKerusakan : [],
+        kdKerusakanUp : ''
     },
     methods : {
         tambahGejalaAtc : function()
@@ -35,6 +37,25 @@ var divDataGejala = new Vue({
             document.getElementById('txtKdGejala2').value = this.kdGejala;
             let kdGejalaKerusakan = this.kdGejala;
             getDataKerusakan(kdGejalaKerusakan);
+        },
+        updateKerusakanAtc : function()
+        {
+            this.kdKerusakanUp = document.getElementById('txtDaftarKerusakan').value;
+            updateKerusakanGejala();
+        },
+        hapusGejalaAtc : function()
+        {
+            let confirmHapus = window.confirm("Yakin menghapus gejala?");
+            if(confirmHapus === true){
+                hapusGejala();
+            }else{
+
+            }
+        },
+        kembaliAtc : function()
+        {
+            $('#divUtama').html("Memuat ... ");
+            $('#divUtama').load('dataGejala.html');
         }
     }
 });
@@ -43,12 +64,36 @@ var divDataGejala = new Vue({
 $('#frmEditGejala').hide();
 $('#frmGejalaKerusakan').hide();
 
+function updateKerusakanGejala()
+{
+    let kdGejala = divDataGejala.kdGejala;
+    let kdKerusakan = divDataGejala.kdKerusakanUp;
+    $.post('http://api.haxors.or.id/riyan/update_kerusakan_gejala.php', {'kdGejala':kdGejala, 'kdKerusakan':kdKerusakan}, function(data){
+        window.alert("Data gejala kerusakan berhasil di update");
+        $('#capUtama').html("Data Gejala")
+        $('#divUtama').html("Memuat ... ");
+        $('#divUtama').load('dataGejala.html');
+    });
+}
+
 function getDataKerusakan(kdGejalaKerusakan)
 {
     $.post('http://api.haxors.or.id/riyan/get_data_kerusakan_gejala.php', {'kdGejala':kdGejalaKerusakan}, function(data){
         let obj = JSON.parse(data);
         $('#txtGejala2').html(obj.gejala_kerusakan);
         $('#txtKerusakanCap').html(obj.kerusakan);
+    });
+
+    $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php', function(data){
+        let obj = JSON.parse(data);
+        obj.forEach(renderSelect);
+
+        function renderSelect(item, index){
+            divDataGejala.listKerusakan.push({
+                id : obj[index].kd_kerusakan,
+                text : obj[index].kerusakan
+            });
+        }
     });
 }
 
@@ -97,68 +142,12 @@ function updateGejala()
     });
 }
 
-
-
-//    $('#btnHapusgejala').click(function(){
-//     let kdGejala = $('#txtKdGejala').val();
-//     let konfirmHapus = window.confirm("Anda yakin menghapus gejala?");
-//     if(konfirmHapus === true){
-//         $.post('http://api.haxors.or.id/riyan/hapus_data_gejala.php',{'kdGejala':kdGejala},function(data){
-//         window.alert("Data gejala berhasil di hapus...");
-//         $('#divUtama').html("Memuat ... ");
-//         $('#divUtama').load('dataGejala.html');
-//     });
-//     }else{
-//     }    
-//    });
-
-//    $('#btnUpdateKerusakan').click(function(){
-//     let kdGejala = $('#txtKdGejala').val();
-//     // localStorage.kdGejalaSes = kdGejala;
-//     // localStorage.setItem("kdGejalaSes", kdGejala);
-//     $('#capUtama').html("Update gejala kerusakan");
-//     $('#frmEditGejala').hide();
-//     $.post('http://api.haxors.or.id/riyan/update_gejala_kerusakan.php',{'kdGejala':kdGejala}, function(data){
-//         let obj = JSON.parse(data);
-//         let gejalaKerusakan = obj.gejala_kerusakan;
-//         let capKerusakan = obj.cap_kerusakan;
-//         let kdKerusakan = obj.kd_kerusakan;
-//         $('#txtGejala2').html(gejalaKerusakan);
-//         $('#txtKerusakanCap').html(capKerusakan);
-       
-//         console.log(obj);
-//     });
-
-//     $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php',function(data){
-//         let obj = JSON.parse(data);
-//     obj.forEach(renderSelec);
-
-//     function renderSelec(item, index){
-//       var sel = document.getElementById('txtDaftarKerusakan');
-//       var opt = document.createElement('option');
-//       opt.appendChild(document.createTextNode(item.kd_kerusakan+" - "+item.kerusakan));
-//       opt.value = item.kd_kerusakan;
-//       sel.appendChild(opt);
-//     }
-//     });
-//     $('#txtKdGejala2').val(kdGejala);
-//     $('#frmGejalaKerusakan').show();
-//    });
-
-//    $('#frmGejalaKerusakan').on('click','.btnUpdateKerusakan',function(){
-//     let kdGejala = $('#txtKdGejala').val();
-//     let kdKerusakan = $('#txtDaftarKerusakan').val();
-//     $.post('http://api.haxors.or.id/riyan/update_gejala_kerusakan_2.php',{'kdGejala':kdGejala,'kdKerusakan':kdKerusakan},function(data){
-//         window.alert("Data gejala kerusakan berhasil di update");
-//         $('#capUtama').html("Data Gejala")
-//     $('#divUtama').html("Memuat ... ");
-//     $('#divUtama').load('dataGejala.html');
-//     });
-//   });
-
-//    $('.btnKembali').click(function(){
-//     $('#capUtama').html("Data Gejala")
-//     $('#divUtama').html("Memuat ... ");
-//     $('#divUtama').load('dataGejala.html');
-//    });
-
+function hapusGejala()
+{
+    let kdGejala = divDataGejala.kdGejala;
+    $.post('http://api.haxors.or.id/riyan/hapus_gejala.php', {'kdGejala':kdGejala}, function(data){
+       window.alert("Data gejala berhasil dihapus..");
+       $('#divUtama').html("Memuat ... ");
+       $('#divUtama').load('dataGejala.html'); 
+    });
+}

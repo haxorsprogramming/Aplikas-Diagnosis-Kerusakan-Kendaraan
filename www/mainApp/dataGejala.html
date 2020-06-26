@@ -10,8 +10,8 @@
         </tr>
         <div style='margin-top:6px;'>
             <a href='#!' class="btn btn-sm btn-primary" id='btnUpdateGejala' v-on:click='updateGejalaAtc'>Update</a>
-            <a href='#!' class="btn btn-sm btn-warning" id='btnHapusgejala'>Hapus</a>
-            <a href='#!' class="btn btn-sm btn-light btnKembali">Kembali</a>
+            <a href='#!' class="btn btn-sm btn-warning" id='btnHapusgejala' v-on:click='hapusGejalaAtc'>Hapus</a>
+            <a href='#!' class="btn btn-sm btn-light" id='btnKembali' v-on:click='kembaliAtc'>Kembali</a>
         </div>
         <br/>
         <br/>
@@ -46,13 +46,13 @@
                     <td>Ubah ke</td>
                     <td>
                         <select class="form-control" id='txtDaftarKerusakan'>
-                           
+                            <option v-for='lk in listKerusakan' :value='lk.id'>{{lk.text}}</option>
                         </select>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <a href="#!" class="btm btn-sm btn-primary btnUpdateKerusakan">Update</a>
+        <a href="#!" class="btm btn-sm btn-primary" v-on:click='updateKerusakanAtc'>Update</a>
         <a href='#!' class="btn btn-sm btn-light btnKembali">Kembali</a>
     </div>
 

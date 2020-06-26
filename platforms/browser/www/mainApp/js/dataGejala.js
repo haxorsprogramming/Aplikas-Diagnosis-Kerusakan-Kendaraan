@@ -3,7 +3,10 @@ var divDataGejala = new Vue({
     data : {
         gejalaUp : '',
         kdGejalaUp : '',
-        listGejala : []
+        listGejala : [],
+        kdGejala : '',
+        listKerusakan : [],
+        kdKerusakanUp : ''
     },
     methods : {
         tambahGejalaAtc : function()
@@ -14,6 +17,7 @@ var divDataGejala = new Vue({
         },
         detailGejalaAtc : function(kdGejala)
         {
+            this.kdGejala = kdGejala;
             detailGejala(kdGejala);
         },
         updateGejalaAtc : function()
@@ -23,8 +27,21 @@ var divDataGejala = new Vue({
             if(this.kdGejalaUp === '' || this.gejalaUp === ''){
                 window.alert("Harap isi field!!");
             }else{
-
+                updateGejala();
             }
+        },
+        btnUpdateKerusakanAtc : function()
+        {
+            $('#frmEditGejala').hide();
+            $("#frmGejalaKerusakan").show();
+            document.getElementById('txtKdGejala2').value = this.kdGejala;
+            let kdGejalaKerusakan = this.kdGejala;
+            getDataKerusakan(kdGejalaKerusakan);
+        },
+        updateKerusakanAtc : function()
+        {
+            this.kdKerusakanUp = document.getElementById('txtDaftarKerusakan').value;
+            updateKerusakanGejala();
         }
     }
 });
@@ -32,6 +49,39 @@ var divDataGejala = new Vue({
 //inisialisasi 
 $('#frmEditGejala').hide();
 $('#frmGejalaKerusakan').hide();
+
+function updateKerusakanGejala()
+{
+    let kdGejala = divDataGejala.kdGejala;
+    let kdKerusakan = divDataGejala.kdKerusakanUp;
+    $.post('http://api.haxors.or.id/riyan/update_kerusakan_gejala.php', {'kdGejala':kdGejala, 'kdKerusakan':kdKerusakan}, function(data){
+        window.alert("Data gejala kerusakan berhasil di update");
+        $('#capUtama').html("Data Gejala")
+        $('#divUtama').html("Memuat ... ");
+        $('#divUtama').load('dataGejala.html');
+    });
+}
+
+function getDataKerusakan(kdGejalaKerusakan)
+{
+    $.post('http://api.haxors.or.id/riyan/get_data_kerusakan_gejala.php', {'kdGejala':kdGejalaKerusakan}, function(data){
+        let obj = JSON.parse(data);
+        $('#txtGejala2').html(obj.gejala_kerusakan);
+        $('#txtKerusakanCap').html(obj.kerusakan);
+    });
+
+    $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php', function(data){
+        let obj = JSON.parse(data);
+        obj.forEach(renderSelect);
+
+        function renderSelect(item, index){
+            divDataGejala.listKerusakan.push({
+                id : obj[index].kd_kerusakan,
+                text : obj[index].kerusakan
+            });
+        }
+    });
+}
 
 function renderTableGejala()
 {
@@ -67,21 +117,18 @@ function detailGejala(kdGejala)
     });
 }
 
+function updateGejala()
+{
+    let gejala = divDataGejala.gejalaUp;
+    let kdGejala = divDataGejala.kdGejalaUp;
+    $.post('http://api.haxors.or.id/riyan/update_data_gejala.php',{'gejala':gejala,'kdGejala':kdGejala},function(data){
+        window.alert("Data gejala berhasil di update...");
+        $('#divUtama').html("Memuat ... ");
+        $('#divUtama').load('dataGejala.html');
+    });
+}
 
-//    $("#btnUpdateGejala").click(function(){
-//         let gejala = $('#txtGejala').val();
-//         let kdGejala = $('#txtKdGejala').val();
-//         if(gejala === ''){
-//             window.alert("Harap isi gejala!!");
-//         }else{
-//             // console.log(dataSend);
-//             $.post('http://api.haxors.or.id/riyan/update_data_gejala.php',{'gejala':gejala,'kdGejala':kdGejala},function(data){
-//                 window.alert("Data gejala berhasil di update...");
-//                 $('#divUtama').html("Memuat ... ");
-//                 $('#divUtama').load('dataGejala.html');
-//             });
-//         }
-//    });
+
 
 //    $('#btnHapusgejala').click(function(){
 //     let kdGejala = $('#txtKdGejala').val();
@@ -112,6 +159,7 @@ function detailGejala(kdGejala)
        
 //         console.log(obj);
 //     });
+
 //     $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php',function(data){
 //         let obj = JSON.parse(data);
 //     obj.forEach(renderSelec);
