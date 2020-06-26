@@ -63,7 +63,7 @@ var divDataGejala = new Vue({
 //inisialisasi 
 $('#frmEditGejala').hide();
 $('#frmGejalaKerusakan').hide();
-
+$('#tblGejala').hide();
 function updateKerusakanGejala()
 {
     let kdGejala = divDataGejala.kdGejala;
@@ -103,6 +103,7 @@ function renderTableGejala()
         "searching": false,
         "bSort" : false
     });
+    $('#tblGejala').show();
 }
     
 $.post('http://api.haxors.or.id/riyan/get_data_gejala.php',function(data){
@@ -115,7 +116,9 @@ $.post('http://api.haxors.or.id/riyan/get_data_gejala.php',function(data){
             gejala_kerusakan : obj[index].gejala_kerusakan
         });
     }
-    setTimeout(renderTableGejala, 500);   
+
+    setTimeout(renderTableGejala, 500);
+       
 });
 
 function detailGejala(kdGejala)
