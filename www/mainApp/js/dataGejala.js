@@ -3,7 +3,8 @@ var divDataGejala = new Vue({
     data : {
         gejalaUp : '',
         kdGejalaUp : '',
-        listGejala : []
+        listGejala : [],
+        kdGejala : ''
     },
     methods : {
         tambahGejalaAtc : function()
@@ -14,6 +15,7 @@ var divDataGejala = new Vue({
         },
         detailGejalaAtc : function(kdGejala)
         {
+            this.kdGejala = kdGejala;
             detailGejala(kdGejala);
         },
         updateGejalaAtc : function()
@@ -25,6 +27,14 @@ var divDataGejala = new Vue({
             }else{
                 updateGejala();
             }
+        },
+        btnUpdateKerusakanAtc : function()
+        {
+            $('#frmEditGejala').hide();
+            $("#frmGejalaKerusakan").show();
+            document.getElementById('txtKdGejala2').value = this.kdGejala;
+            let kdGejalaKerusakan = this.kdGejala;
+            getDataKerusakan(kdGejalaKerusakan);
         }
     }
 });
@@ -32,6 +42,15 @@ var divDataGejala = new Vue({
 //inisialisasi 
 $('#frmEditGejala').hide();
 $('#frmGejalaKerusakan').hide();
+
+function getDataKerusakan(kdGejalaKerusakan)
+{
+    $.post('http://api.haxors.or.id/riyan/get_data_kerusakan_gejala.php', {'kdGejala':kdGejalaKerusakan}, function(data){
+        let obj = JSON.parse(data);
+        $('#txtGejala2').html(obj.gejala_kerusakan);
+        $('#txtKerusakanCap').html(obj.kerusakan);
+    });
+}
 
 function renderTableGejala()
 {
@@ -78,20 +97,7 @@ function updateGejala()
     });
 }
 
-//    $("#btnUpdateGejala").click(function(){
-//         let gejala = $('#txtGejala').val();
-//         let kdGejala = $('#txtKdGejala').val();
-//         if(gejala === ''){
-//             window.alert("Harap isi gejala!!");
-//         }else{
-//             // console.log(dataSend);
-//             $.post('http://api.haxors.or.id/riyan/update_data_gejala.php',{'gejala':gejala,'kdGejala':kdGejala},function(data){
-//                 window.alert("Data gejala berhasil di update...");
-//                 $('#divUtama').html("Memuat ... ");
-//                 $('#divUtama').load('dataGejala.html');
-//             });
-//         }
-//    });
+
 
 //    $('#btnHapusgejala').click(function(){
 //     let kdGejala = $('#txtKdGejala').val();
@@ -122,6 +128,7 @@ function updateGejala()
        
 //         console.log(obj);
 //     });
+
 //     $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php',function(data){
 //         let obj = JSON.parse(data);
 //     obj.forEach(renderSelec);
