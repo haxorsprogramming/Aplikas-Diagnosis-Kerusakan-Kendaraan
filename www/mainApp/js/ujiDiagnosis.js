@@ -7,7 +7,10 @@ var divDiagnosis = new Vue({
         pelanggan : '',
         nomorPolisi : '',
         mobil : '',
-        dataGejala : []
+        dataGejala : [],
+        kerusakanFinal : '',
+        solusiFinal : '',
+        dataFinalDiagnosis : []
     },
     methods : {
         ujiBaruAtc : function()
@@ -63,36 +66,61 @@ var divDiagnosis = new Vue({
             }else{
                 prosesDiagnosis();
             }
+        },
+        kembaliAtc : function()
+        {
+            $('#capUtama').html("Uji Diagnosis");
+            $('#divUtama').html("Memuat ... ");
+            $('#divUtama').load('ujiDiagnosis.html');
         }
     }
 });
 
 function prosesDiagnosis()
 {
-    //daftarkan pengujian 
+   
     let kdUji = divDiagnosis.kodeUji;
     let pelanggan = divDiagnosis.pelanggan;
     let nomorPolisi = divDiagnosis.nomorPolisi;
     let mobil = divDiagnosis.mobil;
     let dataSend = {'kdUji':kdUji, 'pelanggan':pelanggan, 'nomorPolisi':nomorPolisi, 'mobil':mobil}
-    // console.log(dataSend);
-    // $.post('http://api.haxors.or.id/riyan/registrasi_uji.php', dataSend, function(data){
-    //     let obj = JSON.parse(data);
-    // });
-
+     //daftarkan pengujian 
+    $.post('http://api.haxors.or.id/riyan/registrasi_uji.php', dataSend, function(data){
+        let obj = JSON.parse(data);
+    });
+    //masukkan ke tabel probabilitas 
     let jlhGejalaDipilih = dataGejalaUji.length;
     var i;
     for (i = 0; i < jlhGejalaDipilih; i++) {
         let gejalaPil = dataGejalaUji[i];
-        $.post('http"//api.haxors.or.id/riyan/update_probabilitas.php', {'kdUji':kdUji, 'kdGejala':gejalaPil}, function(data){
-
+        $.post('http://api.haxors.or.id/riyan/update_probabilitas.php', {'kdUji':kdUji, 'kdGejala':gejalaPil}, function(data){
+            // console.log(data);
         });
     }
+    //finalisasi 
+    $.post('http://api.haxors.or.id/riyan/finalisasi.php', {'kdUji':kdUji}, function(data){
+        let obj = JSON.parse(data);
+        let dataDiagnosis = obj.tabelProp;
+        console.log(obj);
+        divDiagnosis.kerusakanFinal = obj.kerusakanDil;
+        divDiagnosis.solusiFinal = obj.solusiDil;
+        dataDiagnosis.forEach(renderDataDiagnosis);
+
+        function renderDataDiagnosis(item, index){
+            divDiagnosis.dataFinalDiagnosis.push({
+                kd : dataDiagnosis[index].kdKerusakan, kerusakan : dataDiagnosis[index].kerusakan, bobot : dataDiagnosis[index].jlhBobot
+            });
+        }
+
+    });
+    $('#divDiagnosis2').hide();
+    $('#divHasilDiagnosis').show();
 }
 
 //inisialisasi
 $('#divFrmUjiDiagnosisBaru').hide();
 $('#divDiagnosis2').hide();
+$('#divHasilDiagnosis').hide();
 
 $.post('http://api.haxors.or.id/riyan/get_history_uji.php',function(data){
     // console.log(data);

@@ -1,4 +1,4 @@
-<div class="container" id='divDiagnosis'>
+<div id='divDiagnosis'>
     <div id='divDataDiagnosis'>
         <a href='#!' class="btn btn-primary btn-lg" id='btnUjiBaru' v-on:click='ujiBaruAtc'><i class='fas fa-clipboard-check'></i> Uji Diagnosis Baru</a>
         <div style='margin-top:20px;'>
@@ -37,8 +37,8 @@
         <a href='#!' class="btn btn-primary btn-icon icon-left" v-on:click='ujiStep2'><i class='fas fa-chevron-circle-right'></i> Next</a>
       </div>
     </div>
-    <div id='divDiagnosis2'>
-          
+
+    <div id='divDiagnosis2'>   
     <div class="card card-primary">
       <div class="card-header">
         <h4>Data Pengujian</h4>
@@ -66,10 +66,59 @@
           <input class="form-check-input" v-on:click='updateGejala(dg.id)' type="checkbox" :id="dg.id">
           <label class="form-check-label" for="defaultCheck1">{{dg.nama}}</label>
         </div>
+        <hr/>
+        <i>Nilai prioritas akan diberikan kepada pilihan pertama dalam menentukan gejala (jika perhitungan menghasilkan bobot yang sama untuk tiap kerusakan)</i>
       </div>
       <div>
         <a href='#!' class="btn btn-primary btn-icon icon-left"  v-on:click='ujiStep3'><i class='fas fa-stethoscope'></i> Mulai Diagnosis</a>
       </div>
     </div>
+
+    <div id='divHasilDiagnosis'>
+      <div class="card card-primary">
+        <div class="card-header">
+          <h4>Hasil Pengujian</h4>
+        </div>
+        <div class="card-body">
+          <table>
+            <tr>
+              <td>Kode Uji</td><td><b>{{kodeUji}}</b></td>
+            </tr>
+            <tr>
+             <td>Nama Pelanggan</td><td>{{pelanggan}}</td>
+           </tr>
+           <tr>
+             <td>Nomor Polisi</td><td>{{nomorPolisi}}</td>
+           </tr>
+           <tr>
+             <td>Nama Mobil</td><td>{{mobil}}</td>
+           </tr>
+           <tr>
+            <td>Kerusakan Final</td><td>{{kerusakanFinal}}</td>
+          </tr>
+          <tr>
+            <td>Solusi</td><td><b>{{solusiFinal}}</b></td>
+          </tr>
+         </table>
+         <hr/>
+         <h5>Diagnosis Gejala</h5>
+         <table class="table table-striped">
+           <thead>
+            <tr>
+              <th>Gejala</th><th>Bobot</th>
+            </tr>
+           </thead>
+           <tbody>
+             <tr v-for='df in dataFinalDiagnosis'>
+               <td>{{df.kd}} - {{df.kerusakan}}</td>
+               <td>{{df.bobot}} %</td>
+             </tr>
+           </tbody>
+         </table>
+         <a href='#!' class='btn btn-primary' v-on:click='kembaliAtc'>Kembali</a>
+        </div>  
+      </div>
+    </div>
+
 </div>
 <script src='js/ujiDiagnosis.js'></script>

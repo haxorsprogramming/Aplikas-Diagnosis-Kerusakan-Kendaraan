@@ -9,11 +9,6 @@ $(document).ready(function(){
         window.location.assign('../index.html');
     });
 
-    $('.btnUjiDiagnosis').click(function(){
-        togelSidebar();
-        $('#divUtama').html("Memuat ... ");
-    });
-
     $('.btnDashboard').click(function(){
         togelSidebar();
         $('#capUtama').html("Dashboard Aplikasi");
