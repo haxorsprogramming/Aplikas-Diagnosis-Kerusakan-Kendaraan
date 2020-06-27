@@ -8,7 +8,11 @@ var divKerusakan = new Vue({
         solusiIn : '',
         dataKerusakanMain : [],
         detailKdKerusakan : '',
-        capMainButtonForm : 'Edit'
+        capMainButtonForm : 'Edit',
+        resKdKerusakan : '',
+        resCapKerusakan : '',
+        resTipeKerusakan : '',
+        resSolusi : ''
     },
     methods : {
         tambahKerusakanAtc : function()
@@ -37,16 +41,27 @@ var divKerusakan = new Vue({
         },
         detailAtc : function (kdKerusakan)
         {
+            this.detailKdKerusakan = kdKerusakan;
+            $.post('http://api.haxors.or.id/riyan/get_detail_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
+                let obj = JSON.parse(data);
+                $('#txtUpKerusakan').html(obj.kerusakan);
+                $('#txtUpSolusi').html(obj.solusi);
+                $('#txtDetailTipeKerusakan').val(obj.capJenisKerusakan);
+            });
             $('#frmDataKerusakan').hide();
             $('#capUtama').html("Detail kerusakan");
             $('#frmDetailKerusakan').show();
-            this.detailKdKerusakan = kdKerusakan;
         },
         detailAtcForm : function()
         {
+           
             if(this.capMainButtonForm === 'Edit'){
+                document.getElementById('txtUpKerusakan').removeAttribute("readonly");
+                document.getElementById('txtUpSolusi').removeAttribute('readonly');
+                document.getElementById('txtUpKerusakan').focus();
                 this.capMainButtonForm = 'Simpan';
             }else{
+                prosesUpdateKerusakan();
                 this.capMainButtonForm = 'Edit';
             }
         }
@@ -56,6 +71,28 @@ var divKerusakan = new Vue({
 //inisialisasi 
 $('#frmTambahKerusakan').hide();
 $('#frmDetailKerusakan').hide();
+
+function prosesUpdateKerusakan()
+{
+    let kdKerusakan = document.getElementById('txtDetailKdKerusakan').value;
+    let kerusakan = document.getElementById('txtUpKerusakan').value;
+    let solusi = document.getElementById('txtUpSolusi').value;
+    $.post('http://api.haxors.or.id/riyan/update_kerusakan.php', {'kdKerusakan':kdKerusakan, 'kerusakan':kerusakan, 'solusi':solusi}, function(data){
+        let obj = JSON.parse(data);
+        if(obj.status === 'sukses'){
+            window.alert("Data berhasil di update...");
+            $.post('http://api.haxors.or.id/riyan/get_detail_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
+                let obj = JSON.parse(data);
+                $('#txtUpKerusakan').html(obj.kerusakan);
+                $('#txtUpSolusi').html(obj.solusi);
+            });
+            document.getElementById('txtUpKerusakan').setAttribute("readonly","readonly");
+            document.getElementById('txtUpSolusi').setAttribute("readonly","readonly");
+        }else{
+
+        }
+    });
+}
 
 function prosesTambahKerusakan()
 {

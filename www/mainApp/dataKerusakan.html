@@ -54,22 +54,22 @@
   <div id="frmDetailKerusakan">
     <div class="form-group">
       <label>Kode Kerusakan</label>
-      <input type="text" class="form-control" readonly id='txtDetailKdKerusakan' :value="detailKdKerusakan" placeholder="Kode kerusakan">
+      <input type="text" class="form-control" readonly id='txtDetailKdKerusakan' :value="detailKdKerusakan" placeholder="">
     </div>
     <div class="form-group">
       <label>Tipe Kerusakan</label>
-      <input type="text" class="form-control" readonly id='txtDetailTipeKerusakan' :value="detailKdKerusakan" placeholder="Tipe kerusakan">
+      <input type="text" class="form-control" readonly id='txtDetailTipeKerusakan' placeholder="">
     </div>
     <div class="form-group">
       <label>Kerusakan</label>
-      <textarea class="form-control" readonly></textarea>
+      <textarea class="form-control" readonly id='txtUpKerusakan'></textarea>
     </div>
     <div class="form-group">
       <label>Solusi</label>
-      <textarea class="form-control" readonly></textarea>
+      <textarea class="form-control" readonly id='txtUpSolusi'></textarea>
     </div>
     <div>
-      <a href='#!' class="btn btn-primary" v-on:click='detailAtcForm'>{{capMainButtonForm}}</a>&nbsp;&nbsp;<a href='#!' class="btn btn-warning">Kembali</a>
+      <a href='#!' class="btn btn-primary" v-on:click='detailAtcForm'>{{capMainButtonForm}}</a>&nbsp;&nbsp;<a href='#!' class="btn btn-warning" v-on:click='kembaliAtc'>Kembali</a>
     </div>
   </div>
 </div>
