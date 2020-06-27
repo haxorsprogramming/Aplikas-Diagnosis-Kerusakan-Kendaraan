@@ -1,89 +1,170 @@
-<div class="container">
-    <div class='row'>
-        <a href='#!' class="btn btn-primary btn-lg" id='btnUjiBaru'><i class='fas fa-clipboard-check'></i> Uji Diagnosis Baru</a>
-    </div>
-    <div style='margin-top:20px;'>
-        <div class="card-header">
-            <h4>Riwayat Pengujian</h4>
-          </div>
-        <table id='tblHistoryUji' class="table table-sm">
-            <thead>
-                <tr>
-                    <th>Kode Uji</th>
-                    <th>Detail Uji</th>
-                    <th>Aksi</th>
+<div id='divDiagnosis'>
+    <div id='divDataDiagnosis'>
+        <a href='#!' class="btn btn-primary btn-lg" id='btnUjiBaru' v-on:click='ujiBaruAtc'><i class='fas fa-clipboard-check'></i> Uji Diagnosis Baru</a>
+        <div style='margin-top:20px;'>
+          <div class="card-header">
+              <h5>Riwayat Pengujian</h5>
+            </div>
+          <table id='tblHistoryUji' class="table table-sm">
+              <thead>
+                  <tr>
+                      <th>Detail Uji</th>
+                      <th>Aksi</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr v-for='hu in historyUji'>
+                  <td>Kode : {{hu.kdUji}}<br/>Pelanggan : {{hu.pelanggan}} <br/> Waktu : {{hu.waktu}}</td>
+                  <td><a href='#!' class="btn btn-primary btn-icon icon-left" v-on:click='detailHistoryAtc(hu.kdUji)'><i class='fas fa-info-circle'></i> Detail</a></td>
                 </tr>
-            </thead>
-        </table>
-    </div>
-</div>
-
- <!-- Modal -->
- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Hasil Pengujian</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <table class="table">
-            <tr>
-              <td>Kode Uji</td><td id='capKode'>-</td>
-            </tr>
-            <tr>
-              <td>Nama Pelanggan</td><td id='capPelanggan'>-</td>
-            </tr>
-            <tr>
-              <td>Merek Mobil</td><td id='capMobil'>-</td>
-            </tr>
-            <tr>
-              <td>Waktu Uji</td><td id='capWaktu'>-</td>
-            </tr>
-            <tr>
-              <td>Kerusakan</td><td id='capKerusakan'>-</td>
-            </tr>
-            <tr>
-              <td>Solusi</td><td id='capSolusi'>-</td>
-            </tr>
+              </tbody>
           </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        </div>
       </div>
     </div>
-  </div>
+    <div id='divFrmUjiDiagnosisBaru'>
+      <div class="form-group">
+        <label>Kode Uji</label>
+        <input type="text" class="form-control" id='txtKodeUji' :value='kodeUji' readonly>
+      </div>
+      <div class="form-group">
+        <label>Nama Pelanggan</label>
+        <input type="text" class="form-control" id='txtNamaPelanggan'>
+      </div>
+      <div class="form-group">
+        <label>Nomor Polisi</label>
+        <input type="text" class="form-control" id='txtNomorPolisi'>
+      </div>
+      <div class="form-group">
+        <label>Nama Mobil</label>
+        <input type="text" class="form-control" id='txtNamaMobil'>
+      </div>
+      <div>
+        <a href='#!' class="btn btn-primary btn-icon icon-left" v-on:click='ujiStep2'><i class='fas fa-chevron-circle-right'></i> Next</a>
+      </div>
+    </div>
 
-<script>
+    <div id='divDiagnosis2'>   
+    <div class="card card-primary">
+      <div class="card-header">
+        <h4>Data Pengujian</h4>
+      </div>
+      <div class="card-body">
+        <table>
+       <tr>
+         <td>Kode Uji</td><td><b>{{kodeUji}}</b></td>
+       </tr>
+       <tr>
+        <td>Nama Pelanggan</td><td>{{pelanggan}}</td>
+      </tr>
+      <tr>
+        <td>Nomor Polisi</td><td>{{nomorPolisi}}</td>
+      </tr>
+      <tr>
+        <td>Nama Mobil</td><td>{{mobil}}</td>
+      </tr>
+    </table>
+      </div>
+    </div>
+      <div class="form-group">
+        <label>Pilih Gejala</label>
+        <div class="form-check" v-for='dg in dataGejala'>
+          <input class="form-check-input" v-on:click='updateGejala(dg.id)' type="checkbox" :id="dg.id">
+          <label class="form-check-label" for="defaultCheck1">{{dg.nama}}</label>
+        </div>
+        <hr/>
+        <i>Nilai prioritas akan diberikan kepada pilihan pertama dalam menentukan gejala (jika perhitungan menghasilkan bobot yang sama untuk tiap kerusakan)</i>
+      </div>
+      <div>
+        <a href='#!' class="btn btn-primary btn-icon icon-left"  v-on:click='ujiStep3'><i class='fas fa-stethoscope'></i> Mulai Diagnosis</a>
+      </div>
+    </div>
 
-$('#btnUjiBaru').click(function(){
-    $('#divUtama').html("Memuat ... ");
-    $('#capUtama').html("Uji Diagnosis Baru")
-    $('#divUtama').load('frmUjiBaru.html');
-});
+    <div id='divHasilDiagnosis'>
+      <div class="card card-primary">
+        <div class="card-header">
+          <h4>Hasil Pengujian</h4>
+        </div>
+        <div class="card-body">
+          <table>
+            <tr>
+              <td>Kode Uji</td><td><b>{{kodeUji}}</b></td>
+            </tr>
+            <tr>
+             <td>Nama Pelanggan</td><td>{{pelanggan}}</td>
+           </tr>
+           <tr>
+             <td>Nomor Polisi</td><td>{{nomorPolisi}}</td>
+           </tr>
+           <tr>
+             <td>Nama Mobil</td><td>{{mobil}}</td>
+           </tr>
+           <tr>
+            <td>Kerusakan Final</td><td>{{kerusakanFinal}}</td>
+          </tr>
+          <tr>
+            <td>Solusi</td><td><b>{{solusiFinal}}</b></td>
+          </tr>
+         </table>
+         <hr/>
+         <h5>Diagnosis Gejala</h5>
+         <table class="table table-striped">
+           <thead>
+            <tr>
+              <th>Gejala</th><th>Bobot</th>
+            </tr>
+           </thead>
+           <tbody>
+             <tr v-for='df in dataFinalDiagnosis'>
+               <td>{{df.kd}} - {{df.kerusakan}}</td>
+               <td>{{df.bobot}} %</td>
+             </tr>
+           </tbody>
+         </table>
+         <a href='#!' class='btn btn-primary' v-on:click='kembaliAtc'>Kembali</a>
+        </div>  
+      </div>
+    </div>
 
-$.post('http://api.haxors.or.id/riyan/get_history_uji.php',function(data){
-    let obj = JSON.parse(data);
-    obj.forEach(renderTabel);
-    function renderTabel(item, index){
-        var table = document.getElementById("tblHistoryUji");
-        var row = table.insertRow(1);
-
-        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        // <a href='#!' class='btn btn-icon icon-left'><i class='far fa-user'></i> Default</a>
-        // Add some text to the new cells:
-        cell1.innerHTML = obj[index].kd_gejala;
-        cell2.innerHTML = "<a href='#!' class='btn btn-icon btn-sm icon-left'><i class='far fa-user'></i> "+obj[index].nama_pelanggan+"</a><br/><a href='#!' class='btn btn-icon btn-sm icon-left'><i class='far fa-clock'></i> "+obj[index].waktu_uji+"</a><br/><a href='#!' class='btn btn-icon btn-sm icon-left'><i class='fas fa-taxi'></i> "+obj[index].nama_mobil+"</a>";
-        cell3.innerHTML = "<a href='#!' class='btn btn-sm btn-primary btnDetail' id='"+obj[index].kd_gejala+"'><i class='fas fa-info-circle'></i> Detail</a>";
-        }
-        // renderDatatable();
-});
-
-
-</script>
+    <div id='divDetailHistory'>
+      <h5>Detail Pengujian</h5>
+      <div class="card-body">
+        <table>
+          <tr>
+            <td>Kode Uji</td><td><b>{{kodeUjiH}}</b></td>
+          </tr>
+          <tr>
+           <td>Nama Pelanggan</td><td>{{pelangganH}}</td>
+         </tr>
+         <tr>
+           <td>Nomor Polisi</td><td>{{nomorPolisiH}}</td>
+         </tr>
+         <tr>
+           <td>Nama Mobil</td><td>{{mobilH}}</td>
+         </tr>
+         <tr>
+          <td>Kerusakan Final</td><td>{{kerusakanFinalH}}</td>
+        </tr>
+        <tr>
+          <td>Solusi</td><td><b>{{solusiFinalH}}</b></td>
+        </tr>
+       </table>
+       <hr/>
+       <h5>Diagnosis Gejala</h5>
+       <table class="table table-striped">
+         <thead>
+          <tr>
+            <th>Gejala</th><th>Bobot</th>
+          </tr>
+         </thead>
+         <tbody>
+           <tr v-for='di in dataDiagnosisH'>
+             <td>{{di.kd}} - {{di.kerusakan}}</td>
+             <td>{{di.bobot}} %</td>
+           </tr>
+         </tbody>
+       </table>
+       <a href='#!' class='btn btn-primary' v-on:click='kembaliAtc'>Kembali</a>
+      </div>  
+    </div>
+</div>
+<script src='js/ujiDiagnosis.js'></script>

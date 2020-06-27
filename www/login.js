@@ -6,22 +6,38 @@ var frmLogin = new Vue({
         developer : 'Riyan Ramadhan Tambunan',
         noUji : '',
         username : '',
-        password : ''
+        password : '',
+        dataDiagnosisH : [],
+        kodeUjiH : '',
+        pelangganH : '',
+        nomorPolisiH : '',
+        mobilH : '',
+        kerusakanFinalH : '',
+        solusiFinalH : '',
     },
     methods : {
         bukaFormLogin : function()
         {
 
         },
-        lihatHasilUji : function()
-        {
-            let kodeUji = document.getElementById('txtKodeUji').value;
-        },
         loginProses : function()
         {
             this.username = document.getElementById('txtUsername').value;
             this.password = document.getElementById('txtPassword').value;
             loginToApps();
+        },
+        lihatHasilUji : function()
+        {
+            this.noUji = document.getElementById('txtKodeUji').value;
+            if(this.noUji === ''){
+                window.alert("No uji tidak boleh kosong");
+            }else{
+                prosesLihatHasilUji(this.noUji);
+            }
+        },
+        kembaliAtc : function()
+        {
+
         }
     }
 });
@@ -30,6 +46,7 @@ var frmLogin = new Vue({
 $('#frm_login').hide();
 $('#hasil').hide();
 $('#txtKodeUji').focus();
+$('#divHasilUji').hide();
 
 let statusKoneksi = navigator.onLine;
 if(statusKoneksi === true){
@@ -105,32 +122,26 @@ function isiField()
     });
 }
 
+function prosesLihatHasilUji(kdUji){
+    $.post('http://api.haxors.or.id/riyan/get_detail_history_uji.php', {'kdUji':kdUji}, function(data){
+        let obj = JSON.parse(data);
+        let dataDiagnosis = obj.tabelProp;
+        console.log(obj);
+        dataDiagnosis.forEach(renderDataDiagnosis);
+        function renderDataDiagnosis(item, index)
+        {
+            frmLogin.dataDiagnosisH.push({
+                kd : dataDiagnosis[index].kdKerusakan, kerusakan : dataDiagnosis[index].kerusakan, bobot : dataDiagnosis[index].jlhBobot
+            });
+        }
+        frmLogin.kodeUjiH = kdUji;
+        frmLogin.pelangganH = obj.pelanggan;
+        frmLogin.nomorPolisiH = obj.nomorPolisi;
+        frmLogin.mobilH = obj.mobil;
+        frmLogin.kerusakanFinalH = obj.kerusakanDil;
+        frmLogin.solusiFinalH = obj.kerusakanDil;
 
-
-// $('#btnLihatHasil').click(function(){
-//         let kodeUji = $('#txtKodeUji').val();
-
-//         if(kodeUji === ''){
-//             window.alert("Harap isi kode uji!!");
-//         }else{
-//             $('#btnLihatHasil').addClass("disabled");
-//             $.post('http://api.haxors.or.id/riyan/get_hasil.php',{'kodeUji':kodeUji},function(data){
-//                 let obj = JSON.parse(data);
-//                 if(obj.status === 'error'){
-//                     window.alert("Maaf, kode uji tidak ditemukan");
-//                     $('#btnLihatHasil').removeClass("disabled");
-//                     $('#txtKodeUji').focus();
-//                 }else{
-//                     $('#capKode').html(kodeUji);
-//                     $('#capPelanggan').html(obj.pelanggan);
-//                     $('#capMobil').html(obj.mobil);
-//                     $('#capWaktu').html(obj.waktu);
-//                     $('#capKerusakan').html(obj.capKerusakan);
-//                     $('#capSolusi').html(obj.solusi);
-//                     $('#exampleModal').modal('show');
-//                     $('#btnLihatHasil').removeClass("disabled");
-//                 }
-
-//             });
-//         }
-//     });
+    });
+    $('#divHasilUji').show();
+    $('#frm_pelanggan').hide();
+}

@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="row">
+<div class="container" id='divTambahGejala'>
+    <div>
         <div class="form-group">
             <label>Kode Gejala</label>
             <input type="text" class="form-control" id='txtKodeGejala'>
@@ -11,70 +11,11 @@
           <div class="form-group">
               <label>Tipe Kerusakan</label>
               <select class="form-control" id="txtTipeKerusakan">
-                <option value='A'>Sistem Mesin</option>
-                <option value='B'>Sistem Kemudi</option>
-                <option value='C'>Sistem Pengereman</option>
-                <option value='D'>Sistem Kelistrikan</option>
+                <option v-for='dk in dataKerusakan' :value='dk.id'>{{dk.nama}}</option>
               </select>
           </div>
     </div>
-    <a href='#!' class="btn btn-primary" id='btnSimpan'><i class='fas fa-save'></i> Simpan</a>&nbsp;
-    <a href='#!' class="btn btn-warning" id='btnKembali'><i class='fas fa-chevron-circle-left'></i> Kembali</a>
+    <a href='#!' class="btn btn-primary" id='btnSimpan' v-on:click='simpanAtc'><i class='fas fa-save'></i> Simpan</a>&nbsp;
+    <a href='#!' class="btn btn-warning" id='btnKembali' v-on:click='kembaliAtc'><i class='fas fa-chevron-circle-left'></i> Kembali</a>
 </div>
-<script>
-$('#txtKodeGejala').focus();
-
-$('#btnSimpan').click(function(){
-    let kdGejala = $('#txtKodeGejala').val();
-    let gejala = $('#txtGejala').val();
-    let tipeKerusakan = $("#txtTipeKerusakan").val();
-    let dataSend = {'kdGejala':kdGejala, 'gejala':gejala, 'tipeKerusakan':tipeKerusakan}
-
-    if(kdGejala === '' || gejala === ''){
-        window.alert("Isi datanya lah..")
-    }else{
-        $.post('http://api.haxors.or.id/riyan/tambahGejala.php',dataSend,function(data){
-        let obj = JSON.parse(data);
-        if(obj.status === 'sukses'){
-            aksi_sukses();
-        }else{
-            aksi_gagal();
-        }
-    });
-    }
-});
-
-function aksi_sukses(){
-        iziToast.show({
-            title: 'Sukses',
-            message: 'Data gejala berhasil ditambahkan',
-            position: 'bottomCenter',
-            timeout: 2000,
-            pauseOnHover : false,
-            onClosed: function () {
-                $('#capUtama').html("Data Gejala")
-                $('#divUtama').html("Memuat ... ");
-                $('#divUtama').load('dataGejala.html');
-            }
-          });
-}
-
-function aksi_gagal(){
-    iziToast.show({
-        title : 'Gagal',
-        message : 'Kode gejala sudah ada, input kembali!!',
-        position : 'bottomCenter',
-        timeout : 2000,
-        pauseOnHover: false,
-        onClosed : function(){
-
-        }
-    });
-}
-
-$('#btnKembali').click(function(){
-    $('#divUtama').html("Memuat ... ");
-     $('#divUtama').load('dataGejala.html');
-});
-
-</script>
+<script src='js/frmTambahGejala.js'></script>

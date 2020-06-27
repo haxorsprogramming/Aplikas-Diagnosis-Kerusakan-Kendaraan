@@ -8,11 +8,16 @@
           <table id='tblHistoryUji' class="table table-sm">
               <thead>
                   <tr>
-                      <th>Kode Uji</th>
                       <th>Detail Uji</th>
                       <th>Aksi</th>
                   </tr>
               </thead>
+              <tbody>
+                <tr v-for='hu in historyUji'>
+                  <td>Kode : {{hu.kdUji}}<br/>Pelanggan : {{hu.pelanggan}} <br/> Waktu : {{hu.waktu}}</td>
+                  <td><a href='#!' class="btn btn-primary btn-icon icon-left" v-on:click='detailHistoryAtc(hu.kdUji)'><i class='fas fa-info-circle'></i> Detail</a></td>
+                </tr>
+              </tbody>
           </table>
       </div>
     </div>
@@ -120,5 +125,46 @@
       </div>
     </div>
 
+    <div id='divDetailHistory'>
+      <h5>Detail Pengujian</h5>
+      <div class="card-body">
+        <table>
+          <tr>
+            <td>Kode Uji</td><td><b>{{kodeUjiH}}</b></td>
+          </tr>
+          <tr>
+           <td>Nama Pelanggan</td><td>{{pelangganH}}</td>
+         </tr>
+         <tr>
+           <td>Nomor Polisi</td><td>{{nomorPolisiH}}</td>
+         </tr>
+         <tr>
+           <td>Nama Mobil</td><td>{{mobilH}}</td>
+         </tr>
+         <tr>
+          <td>Kerusakan Final</td><td>{{kerusakanFinalH}}</td>
+        </tr>
+        <tr>
+          <td>Solusi</td><td><b>{{solusiFinalH}}</b></td>
+        </tr>
+       </table>
+       <hr/>
+       <h5>Diagnosis Gejala</h5>
+       <table class="table table-striped">
+         <thead>
+          <tr>
+            <th>Gejala</th><th>Bobot</th>
+          </tr>
+         </thead>
+         <tbody>
+           <tr v-for='di in dataDiagnosisH'>
+             <td>{{di.kd}} - {{di.kerusakan}}</td>
+             <td>{{di.bobot}} %</td>
+           </tr>
+         </tbody>
+       </table>
+       <a href='#!' class='btn btn-primary' v-on:click='kembaliAtc'>Kembali</a>
+      </div>  
+    </div>
 </div>
 <script src='js/ujiDiagnosis.js'></script>
