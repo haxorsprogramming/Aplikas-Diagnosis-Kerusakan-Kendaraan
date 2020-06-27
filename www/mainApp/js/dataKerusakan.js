@@ -6,7 +6,9 @@ var divKerusakan = new Vue({
         tipeKerusakanIn : '',
         kerusakanIn : '',
         solusiIn : '',
-        dataKerusakanMain : []
+        dataKerusakanMain : [],
+        detailKdKerusakan : '',
+        capMainButtonForm : 'Edit'
     },
     methods : {
         tambahKerusakanAtc : function()
@@ -32,12 +34,28 @@ var divKerusakan = new Vue({
             $('#capUtama').html("Data kerusakan & solusi");
             $('#divUtama').html("Memuat ...");
             $('#divUtama').load('dataKerusakan.html');
+        },
+        detailAtc : function (kdKerusakan)
+        {
+            $('#frmDataKerusakan').hide();
+            $('#capUtama').html("Detail kerusakan");
+            $('#frmDetailKerusakan').show();
+            this.detailKdKerusakan = kdKerusakan;
+        },
+        detailAtcForm : function()
+        {
+            if(this.capMainButtonForm === 'Edit'){
+                this.capMainButtonForm = 'Simpan';
+            }else{
+                this.capMainButtonForm = 'Edit';
+            }
         }
     }
 });
 
 //inisialisasi 
 $('#frmTambahKerusakan').hide();
+$('#frmDetailKerusakan').hide();
 
 function prosesTambahKerusakan()
 {
