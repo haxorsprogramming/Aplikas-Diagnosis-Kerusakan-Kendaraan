@@ -35,7 +35,7 @@ function tambahGejala()
     let gejala = divTambahGejala.gejala;
     let tipeKerusakan = divTambahGejala.tipeKerusakan;
     console.log(tipeKerusakan);
-    $.post('http://api.haxors.or.id/riyan/tambah_gejala.php', {'kdGejala':kdGejala, 'gejala':gejala, 'tipeKerusakan':tipeKerusakan}, function(data){
+    $.post(server+'tambah_gejala.php', {'kdGejala':kdGejala, 'gejala':gejala, 'tipeKerusakan':tipeKerusakan}, function(data){
         let obj = JSON.parse(data);
         console.log(obj);
         if(obj.status === 'sukses'){
@@ -49,7 +49,7 @@ function tambahGejala()
     });
 }
 
-$.post('http://api.haxors.or.id/riyan/get_jenis_kerusakan.php', function(data){
+$.post(server+'get_jenis_kerusakan.php', function(data){
     let obj = JSON.parse(data);
     obj.forEach(renderSelect);
 

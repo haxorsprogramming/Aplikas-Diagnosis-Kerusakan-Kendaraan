@@ -27,7 +27,7 @@ var idSettingUser = new Vue({
  //inisialisasi awal
  $('#frmTambahUser').hide();
 
- $.post('http://api.haxors.or.id/riyan/get_data_user.php',function(data){
+ $.post(server+'get_data_user.php',function(data){
     let obj = JSON.parse(data);
     obj.forEach(renderTabel);
     
@@ -53,7 +53,7 @@ function proTambahUser()
     let password = idSettingUser.passwordN;
     let tipe = idSettingUser.tipeN;
     $('#btnSimpanUser').addClass('disabled');
-    $.post('http://api.haxors.or.id/riyan/tambah_user.php', {'username':username, 'password':password, 'tipe':tipe}, function(data){
+    $.post(server+'tambah_user.php', {'username':username, 'password':password, 'tipe':tipe}, function(data){
         let obj = JSON.parse(data);
         if(obj.status === 'sukses'){
             window.alert("Sukses menambahkan user");
@@ -75,7 +75,7 @@ function hapusUser(id)
 {
     let confirmHapus = window.confirm("Apakah yakin menghapus user?");
     if(confirmHapus === true){
-        $.post('http://api.haxors.or.id/riyan/hapus_user.php',{'id':id}, function(data){
+        $.post(server+'hapus_user.php',{'id':id}, function(data){
             window.alert("User berhasil di hapus..");
             $('#divUtama').html("Memuat ...");
             $('#divUtama').load("settingUser.html");

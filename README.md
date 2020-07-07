@@ -1,6 +1,6 @@
 # Aplikasi Diagnosis Kerusakan Kendaraan
 
-Menggunakan metode chain-forwarding
+Menggunakan metode Chain Forwarding
 
 <b>Teknologi yang digunakan</b>
 <li>Apache Cordova</li>
@@ -9,6 +9,22 @@ Menggunakan metode chain-forwarding
 <li>Javascript : Vue JS, Native Javascript, & Jquery</li>
 <li>Bootstrap Theme By <a href='https://demo.getstisla.com/index.html'>[Stisla]</a></li>
 <br/>
+
+<h2>Tampilan Halaman</h2>
+<img src='https://github.com/haxorsprogramming/Haxors-Contributors/blob/master/diagnosis-kendaraan-apps/halaman_awal.png?raw=true' width='300'>
+
+<img src='https://github.com/haxorsprogramming/Haxors-Contributors/blob/master/diagnosis-kendaraan-apps/halaman_login.png?raw=true' width='300'>
+
+<img src='https://github.com/haxorsprogramming/Haxors-Contributors/blob/master/diagnosis-kendaraan-apps/dashboard.png?raw=true' width='300'>
+
+<img src='https://github.com/haxorsprogramming/Haxors-Contributors/blob/master/diagnosis-kendaraan-apps/history_uji.png?raw=true' width='300'>
+
+<img src='https://github.com/haxorsprogramming/Haxors-Contributors/blob/master/diagnosis-kendaraan-apps/data_gejala.png?raw=true' width='300'>
+
+<img src='https://github.com/haxorsprogramming/Haxors-Contributors/blob/master/diagnosis-kendaraan-apps/uji_diagnosis.png?raw=true' width='300'>
+
+<img src='https://github.com/haxorsprogramming/Haxors-Contributors/blob/master/diagnosis-kendaraan-apps/hasil.png?raw=true' width='300'>
+
 <b>Instalasi Aplikasi</b>
 <li>Install nodejs (npm or yarn), & nodejs</li>
 <li>Clone repo, masuk ke folder project</li>

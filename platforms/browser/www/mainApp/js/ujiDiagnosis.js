@@ -129,14 +129,29 @@ $('#divDetailHistory').hide();
 document.getElementById('txtTipeKerusakanChoice').addEventListener('change', function(data){
     let kdKerusakan = document.getElementById('txtTipeKerusakanChoice').value;
     
-    setTimeout(getKerusakanByJenis(kdJenis), 400);
+    setTimeout(getKerusakanByJenis(kdKerusakan), 400);
 });
 
 function getKerusakanByJenis(kdJenis)
 {
     $.post('http://api.haxors.or.id/riyan/get_data_gejala_for_uji.php', {'kdJenis':kdJenis}, function(data){
         let obj = JSON.parse(data);
-        obj.forEach(renderGejala);
+        console.log(obj);
+
+        let penjangArray = divDiagnosis.dataGejala.length;
+
+        var i;
+
+        for(i = 0; i < penjangArray; i++){
+            divDiagnosis.dataGejala.splice(0,1);
+        }
+
+        setTimeout(breakKita, 400);
+
+        function breakKita()
+        {
+            obj.forEach(renderGejala);
+        }
 
         function renderGejala(item, index)
         {

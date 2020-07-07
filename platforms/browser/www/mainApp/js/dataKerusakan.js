@@ -42,7 +42,7 @@ var divKerusakan = new Vue({
         detailAtc : function (kdKerusakan)
         {
             this.detailKdKerusakan = kdKerusakan;
-            $.post('http://api.haxors.or.id/riyan/get_detail_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
+            $.post(server+'get_detail_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
                 let obj = JSON.parse(data);
                 $('#txtUpKerusakan').html(obj.kerusakan);
                 $('#txtUpSolusi').html(obj.solusi);
@@ -68,7 +68,7 @@ var divKerusakan = new Vue({
         hapusKerusakanAtc : function(kdKerusakan)
         {
             // let kdKerusakan = this.resKdKerusakan;
-           $.post('http://api.haxors.or.id/riyan/hapus_data_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
+           $.post(server+'hapus_data_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
                let confirmHapus = window.confirm("Apakah yakin menghapus kerusakan?");
                if(confirmHapus === true){
                    window.alert("Data kerusakan berhasil di hapus..");
@@ -92,11 +92,11 @@ function prosesUpdateKerusakan()
     let kdKerusakan = document.getElementById('txtDetailKdKerusakan').value;
     let kerusakan = document.getElementById('txtUpKerusakan').value;
     let solusi = document.getElementById('txtUpSolusi').value;
-    $.post('http://api.haxors.or.id/riyan/update_kerusakan.php', {'kdKerusakan':kdKerusakan, 'kerusakan':kerusakan, 'solusi':solusi}, function(data){
+    $.post(server+'update_kerusakan.php', {'kdKerusakan':kdKerusakan, 'kerusakan':kerusakan, 'solusi':solusi}, function(data){
         let obj = JSON.parse(data);
         if(obj.status === 'sukses'){
             window.alert("Data berhasil di update...");
-            $.post('http://api.haxors.or.id/riyan/get_detail_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
+            $.post(server+'get_detail_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
                 let obj = JSON.parse(data);
                 $('#txtUpKerusakan').html(obj.kerusakan);
                 $('#txtUpSolusi').html(obj.solusi);
@@ -115,7 +115,7 @@ function prosesTambahKerusakan()
     let tipeKerusakan = divKerusakan.tipeKerusakanIn;
     let kerusakan = divKerusakan.kerusakanIn;
     let solusi = divKerusakan.solusiIn;
-    $.post('http://api.haxors.or.id/riyan/tambah_kerusakan.php', {'kdKerusakan':kdKerusakan, 'tipeKerusakan':tipeKerusakan, 'kerusakan': kerusakan, 'solusi':solusi}, function(data){
+    $.post(server+'tambah_kerusakan.php', {'kdKerusakan':kdKerusakan, 'tipeKerusakan':tipeKerusakan, 'kerusakan': kerusakan, 'solusi':solusi}, function(data){
         let obj = JSON.parse(data);
         if(obj.status === 'sukses'){
             window.alert("Berhasil menambahkan kerusakan");
@@ -129,7 +129,7 @@ function prosesTambahKerusakan()
 }
 
 //get jenis kerusakan
-$.post('http://api.haxors.or.id/riyan/get_jenis_kerusakan.php', function(data){
+$.post(server+'get_jenis_kerusakan.php', function(data){
     let obj = JSON.parse(data);
     obj.forEach(renderSelect);
     
@@ -155,7 +155,7 @@ document.getElementById('txtTipeKerusakanAwal').addEventListener('change', funct
 
 function getKerusakanByJenis(kdJenis)
 {
-    $.post('http://api.haxors.or.id/riyan/get_kerusakan_by_jenis.php', {'kdJenis':kdJenis}, function(data){
+    $.post(server+'get_kerusakan_by_jenis.php', {'kdJenis':kdJenis}, function(data){
         let obj = JSON.parse(data);
         obj.forEach(isiDataKerusakan);
         

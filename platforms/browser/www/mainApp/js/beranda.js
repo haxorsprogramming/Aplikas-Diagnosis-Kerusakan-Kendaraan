@@ -7,7 +7,7 @@ var divBeranda = new Vue({
     }
   });
   
-  $.post('http://api.haxors.or.id/riyan/get_item_beranda.php', function(data){
+  $.post(server+'get_item_beranda.php', function(data){
     let obj = JSON.parse(data);
     let j_data_uji = obj.j_data_uji;
     let j_data_gejala = obj.j_data_gejala;

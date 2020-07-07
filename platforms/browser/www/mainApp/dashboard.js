@@ -1,3 +1,5 @@
+const server = 'http://api.haxors.or.id/riyan/';
+
 $(document).ready(function(){
     $('#divUtama').load('beranda.html');
 

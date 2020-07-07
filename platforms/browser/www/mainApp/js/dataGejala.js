@@ -68,7 +68,7 @@ function updateKerusakanGejala()
 {
     let kdGejala = divDataGejala.kdGejala;
     let kdKerusakan = divDataGejala.kdKerusakanUp;
-    $.post('http://api.haxors.or.id/riyan/update_kerusakan_gejala.php', {'kdGejala':kdGejala, 'kdKerusakan':kdKerusakan}, function(data){
+    $.post(server+'update_kerusakan_gejala.php', {'kdGejala':kdGejala, 'kdKerusakan':kdKerusakan}, function(data){
         window.alert("Data gejala kerusakan berhasil di update");
         $('#capUtama').html("Data Gejala")
         $('#divUtama').html("Memuat ... ");
@@ -78,13 +78,13 @@ function updateKerusakanGejala()
 
 function getDataKerusakan(kdGejalaKerusakan)
 {
-    $.post('http://api.haxors.or.id/riyan/get_data_kerusakan_gejala.php', {'kdGejala':kdGejalaKerusakan}, function(data){
+    $.post(server+'get_data_kerusakan_gejala.php', {'kdGejala':kdGejalaKerusakan}, function(data){
         let obj = JSON.parse(data);
         $('#txtGejala2').html(obj.gejala_kerusakan);
         $('#txtKerusakanCap').html(obj.kerusakan);
     });
 
-    $.post('http://api.haxors.or.id/riyan/get_data_kerusakan.php', function(data){
+    $.post(server+'get_data_kerusakan.php', function(data){
         let obj = JSON.parse(data);
         obj.forEach(renderSelect);
 
@@ -106,7 +106,7 @@ function renderTableGejala()
     $('#tblGejala').show();
 }
     
-$.post('http://api.haxors.or.id/riyan/get_data_gejala.php',function(data){
+$.post(server+'get_data_gejala.php',function(data){
     let obj = JSON.parse(data);
     obj.forEach(renderTabel);
 
@@ -126,7 +126,7 @@ function detailGejala(kdGejala)
     $('#frmEditGejala').show();
     $('#frmDataGejala').hide();
     $('#txtKdGejala').val(kdGejala);
-    $.post('http://api.haxors.or.id/riyan/get_data_gejala_detail.php', {'kdGejala':kdGejala}, function(data){
+    $.post(server+'get_data_gejala_detail.php', {'kdGejala':kdGejala}, function(data){
         let obj = JSON.parse(data);
         $('#txtGejala').val(obj.gejala_kerusakan);
         $('#capKerusakanGejala').html(obj.cap_kerusakan);
@@ -138,7 +138,7 @@ function updateGejala()
 {
     let gejala = divDataGejala.gejalaUp;
     let kdGejala = divDataGejala.kdGejalaUp;
-    $.post('http://api.haxors.or.id/riyan/update_data_gejala.php',{'gejala':gejala,'kdGejala':kdGejala},function(data){
+    $.post(server+'update_data_gejala.php',{'gejala':gejala,'kdGejala':kdGejala},function(data){
         window.alert("Data gejala berhasil di update...");
         $('#divUtama').html("Memuat ... ");
         $('#divUtama').load('dataGejala.html');
@@ -148,7 +148,7 @@ function updateGejala()
 function hapusGejala()
 {
     let kdGejala = divDataGejala.kdGejala;
-    $.post('http://api.haxors.or.id/riyan/hapus_gejala.php', {'kdGejala':kdGejala}, function(data){
+    $.post(server+'hapus_gejala.php', {'kdGejala':kdGejala}, function(data){
        window.alert("Data gejala berhasil dihapus..");
        $('#divUtama').html("Memuat ... ");
        $('#divUtama').load('dataGejala.html'); 
