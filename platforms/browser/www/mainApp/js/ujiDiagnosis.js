@@ -38,18 +38,8 @@ var divDiagnosis = new Vue({
             if(this.pelanggan === '' || this.nomorPolisi === '' || this.mobil === ''){
                 window.alert("Harap isi semua field!!");
             }else{
-                 $.post('http://api.haxors.or.id/riyan/get_data_gejala.php', function(data){
-                    let obj = JSON.parse(data);
-                    obj.forEach(renderGejala);
 
-                    function renderGejala(item, index)
-                    {
-                        divDiagnosis.dataGejala.push({
-                            id : obj[index].kd_gejala,
-                            nama : obj[index].gejala_kerusakan
-                        });
-                    }
-                });
+                
                 $('#divFrmUjiDiagnosisBaru').hide();
                 $('#divDiagnosis2').show();
             }
@@ -135,6 +125,28 @@ $('#divFrmUjiDiagnosisBaru').hide();
 $('#divDiagnosis2').hide();
 $('#divHasilDiagnosis').hide();
 $('#divDetailHistory').hide();
+
+document.getElementById('txtTipeKerusakanChoice').addEventListener('change', function(data){
+    let kdKerusakan = document.getElementById('txtTipeKerusakanChoice').value;
+    
+    setTimeout(getKerusakanByJenis(kdJenis), 400);
+});
+
+function getKerusakanByJenis(kdJenis)
+{
+    $.post('http://api.haxors.or.id/riyan/get_data_gejala_for_uji.php', {'kdJenis':kdJenis}, function(data){
+        let obj = JSON.parse(data);
+        obj.forEach(renderGejala);
+
+        function renderGejala(item, index)
+        {
+            divDiagnosis.dataGejala.push({
+                id : obj[index].kd_gejala,
+                nama : obj[index].gejala_kerusakan
+            });
+        }
+    });
+}
 
 $.post('http://api.haxors.or.id/riyan/get_history_uji.php', function(data){
     let obj = JSON.parse(data);

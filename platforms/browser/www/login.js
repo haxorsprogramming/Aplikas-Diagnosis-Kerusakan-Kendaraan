@@ -1,3 +1,5 @@
+//setting alamat server api disini
+const apiServer = 'http://api.haxors.or.id/riyan/';
 //main vue object
 var frmLogin = new Vue({
     el : '#frmLogin',
@@ -71,7 +73,7 @@ function loginToApps()
         isiField();
     }else{
         $('#btnMasuk').addClass('disabled');
-        $.post('http://api.haxors.or.id/riyan/login_cek.php', dataSend, function(data){
+        $.post(apiServer+'login_cek.php', dataSend, function(data){
             let obj = JSON.parse(data);
             if(obj.status === 'sukses'){
                 aksi_sukses();

@@ -125,7 +125,7 @@ function isiField()
 }
 
 function prosesLihatHasilUji(kdUji){
-    $.post('http://api.haxors.or.id/riyan/get_detail_history_uji.php', {'kdUji':kdUji}, function(data){
+    $.post(apiServer+'get_detail_history_uji.php', {'kdUji':kdUji}, function(data){
         let obj = JSON.parse(data);
         let dataDiagnosis = obj.tabelProp;
         console.log(obj);

@@ -64,6 +64,21 @@ var divKerusakan = new Vue({
                 prosesUpdateKerusakan();
                 this.capMainButtonForm = 'Edit';
             }
+        },
+        hapusKerusakanAtc : function(kdKerusakan)
+        {
+            // let kdKerusakan = this.resKdKerusakan;
+           $.post('http://api.haxors.or.id/riyan/hapus_data_kerusakan.php', {'kdKerusakan':kdKerusakan}, function(data){
+               let confirmHapus = window.confirm("Apakah yakin menghapus kerusakan?");
+               if(confirmHapus === true){
+                   window.alert("Data kerusakan berhasil di hapus..");
+                $('#capUtama').html("Data kerusakan & solusi");
+                $('#divUtama').html("Memuat ...");
+                $('#divUtama').load('dataKerusakan.html');
+               }else{
+
+               }
+           });
         }
     }
 });
